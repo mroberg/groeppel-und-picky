@@ -1,0 +1,30 @@
+---
+const figuren = [
+  { name: 'Gröppel', farbe: 'var(--croc)', bild: '/img/groeppel.webp', alt: 'Gröppel mit dem RaZeTu in der Hand',
+    text: 'Ein kleines Nilkrokodil, zehn Jahre alt und schrecklich neugierig.',
+    geheimnis: 'Gröppel hat zwei verschiedenfarbige Augen. Schau mal genau hin!' },
+  { name: 'Picky', farbe: 'var(--picky)', bild: '/img/picky.webp', alt: 'Picky, der kleine blaue Vogel',
+    text: 'Ein Krokodilwächter-Vogel. Vernünftig, vorsichtig und Gröppels bester Freund.',
+    geheimnis: 'Picky ist genau drei Wochen jünger als Gröppel.' },
+  { name: 'Professor Einfred', farbe: 'var(--orange)', bild: '/img/einfred.webp', alt: 'Professor Einfred mit Brille und Reagenzglas',
+    text: '65 Jahre alt und Erfinder des RaZeTu, der Zeitmaschine.',
+    geheimnis: 'Sein großes Vorbild ist Albert Einstein. Daher auch die runde Brille.' },
+];
+---
+<div class="cards">
+  {figuren.map(f => (
+    <button class="card sketch" type="button" aria-expanded="false" data-card>
+      <div class="pic pic-cut"><img src={f.bild} alt={f.alt} loading="lazy" /></div>
+      <div class="txt">
+        <h3 style={`color:${f.farbe}`}>{f.name}</h3>
+        <p>{f.text}</p>
+        <span class="hint">Geheimnis lüften</span>
+        <p class="secret">{f.geheimnis}</p>
+      </div>
+    </button>
+  ))}
+</div>
+<script>
+  document.querySelectorAll('[data-card]').forEach(c => c.addEventListener('click', () =>
+    c.setAttribute('aria-expanded', c.getAttribute('aria-expanded') === 'true' ? 'false' : 'true')));
+</script>

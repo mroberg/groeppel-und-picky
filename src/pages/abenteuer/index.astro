@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import { band1, band2 } from '../../data/site';
+---
+<Base title="Abenteuer" description="Alle Zeitreiseabenteuer von Gröppel und Picky: Band 1 bei den Indianern, Band 2 bei den Piraten.">
+  <div class="page-head"><div class="wrap stack" style="gap:8px"><span class="eyebrow">Die Reihe</span><h1>Wohin geht die Reise?</h1></div></div>
+  <section class="band" style="padding-top:24px">
+    <div class="wrap trips">
+      <a class="trip sketch" href="/abenteuer/bei-den-indianern/">
+        <img src="/img/buch-band1.webp" alt="" loading="lazy">
+        <div class="stack" style="gap:6px"><span class="eyebrow">Band 1 · Amerika, 1853</span><h2>{band1.titel}</h2><p>Als Buch und ab 15.11. als Hörbuch.</p></div>
+      </a>
+      <a class="trip sketch" href="/abenteuer/die-piraten/">
+        <img src="/img/schiff.webp" alt="" loading="lazy" style="background:#fff">
+        <div class="stack" style="gap:6px"><span class="eyebrow">Band 2 · Auf hoher See</span><h2>{band2.titel}</h2><p>Erscheint im {band2.erscheint}.</p></div>
+      </a>
+    </div>
+  </section>
+</Base>
+<style>
+  .trips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px }
+  .trip { display: grid; grid-template-columns: 140px 1fr; gap: 20px; align-items: center; padding: 20px; color: inherit; text-decoration: none; background: var(--paper-2); transition: transform .2s }
+  .trip:hover { transform: rotate(-1deg) translateY(-3px) }
+  .trip img { width: 140px; aspect-ratio: 340/539; object-fit: contain; border-radius: 8px }
+  .trip h2 { font-size: 1.6rem }
+  @media (max-width: 820px) { .trips { grid-template-columns: 1fr } .trip { grid-template-columns: 100px 1fr } .trip img { width: 100px } }
+</style>

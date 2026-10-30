@@ -1,0 +1,22 @@
+---
+interface Props { lang?: boolean }
+const { lang = false } = Astro.props;
+---
+<div class="team">
+  <div class="person sketch">
+    <span class="hi" aria-hidden="true">Hallo!</span><img src="/img/matthias.webp" alt="Matthias Roberg, gezeichnet" loading="lazy">
+    <div class="stack" style="gap:6px"><h3>Matthias Roberg</h3>
+      {lang
+        ? <p>Jahrgang 1976. Hat schon als Kind gern Geschichten erfunden und diese Leidenschaft mit seinen eigenen Kindern wiederentdeckt. Aus den Gute-Nacht-Geschichten für sie wurde das erste Buch. Er lebt im Süden Schleswig-Holsteins und arbeitet als Autor und IT-Berater. Ladekabel liegen bei ihm immer bereit, falls Gröppel und Picky mal vorbeischauen.</p>
+        : <p>Schreibt die Geschichten. Hat sie zuerst seinen eigenen Kindern erzählt.</p>}
+    </div>
+  </div>
+  <div class="person sketch">
+    <span class="hi" aria-hidden="true">Moin!</span><img src="/img/ludwig.webp" alt="Ludwig Tredup, gezeichnet" loading="lazy">
+    <div class="stack" style="gap:6px"><h3>Ludwig Tredup</h3>
+      {lang
+        ? <p>Jahrgang 1981, aus Greifswald. Zeichnet, seit er einen Stift halten kann. Heute ist er Unternehmer im Süden Schleswig-Holsteins. Am meisten inspiriert ihn, wie gut gelaunt Gröppel und Picky jedes Abenteuer anpacken.</p>
+        : <p>Zeichnet alle Bilder. Malt schon, seit er einen Stift halten kann.</p>}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+---
+// Double-Opt-in für die Erinnerung an Band 2. Backend: /api/erinnerung.php
+---
+<div class="btns"><button class="btn blue" type="button" id="remind-open" aria-expanded="false" aria-controls="remind">Erinnere mich, wenn es erscheint</button></div>
+<form class="remind sketch" id="remind" hidden>
+  <label for="remind-mail">Deine E-Mail (oder die deiner Eltern)</label>
+  <input type="email" id="remind-mail" name="email" required placeholder="name@beispiel.de" autocomplete="email">
+  <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+  <label class="ok"><input type="checkbox" id="remind-ok" name="ok" required> Ja, schickt mir eine einzige E-Mail, wenn Band 2 erscheint. Danach wird die Adresse gelöscht.</label>
+  <button class="btn" type="submit">Eintragen</button>
+  <small>Du bekommst zuerst eine Bestätigungsmail. Erst wenn du den Link darin anklickst, bist du eingetragen. Mehr dazu im <a href="/datenschutz/">Datenschutz</a>.</small>
+  <p class="todo" id="remind-err" role="alert" hidden></p>
+</form>
+<div class="done sketch" id="remind-done" role="status" hidden><img src="/img/picky.webp" alt=""><div><b>Juhu, fast geschafft!</b>Picky hat dir eine E-Mail geschickt. Klick auf den Link darin, dann sagen wir dir Bescheid, sobald die Piraten da sind.</div></div>
+<script>
+  const ro = document.getElementById('remind-open')!, rf = document.getElementById('remind') as HTMLFormElement;
+  const err = document.getElementById('remind-err')!;
+  ro.addEventListener('click', () => {
+    rf.hidden = !rf.hidden; ro.setAttribute('aria-expanded', String(!rf.hidden));
+    if (!rf.hidden) (document.getElementById('remind-mail') as HTMLInputElement).focus();
+  });
+  rf.addEventListener('submit', async e => {
+    e.preventDefault(); err.hidden = true;
+    try {
+      const res = await fetch('/api/erinnerung.php', { method: 'POST', body: new FormData(rf) });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || 'Das hat nicht geklappt.');
+      rf.hidden = true; ro.hidden = true; document.getElementById('remind-done')!.hidden = false;
+    } catch (x) {
+      err.textContent = (x as Error).message + ' Versuch es bitte gleich noch einmal.'; err.hidden = false;
+    }
+  });
+</script>

@@ -1,0 +1,7 @@
+---
+interface Props { links: { name: string; url: string }[]; variant?: '' | 'blue' | 'alt' }
+const { links, variant = '' } = Astro.props;
+---
+<div class="btns">
+  {links.map(l => <a class:list={['btn', variant]} href={l.url} target="_blank" rel="noopener">{l.name}</a>)}
+</div>

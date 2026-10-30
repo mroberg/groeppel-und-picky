@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Erinnerung">
+  <section class="band"><div class="wrap stack" style="gap:20px;max-width:640px">
+    <div class="done sketch" data-state="ok" hidden><img src="/img/picky.webp" alt=""><div><b>Geschafft!</b>Deine Adresse ist bestätigt. Sobald Band 2 erscheint, schreiben wir dir. Danach löschen wir die Adresse wieder.</div></div>
+    <div class="done sketch" data-state="abgemeldet" hidden><img src="/img/picky.webp" alt=""><div><b>Abgemeldet.</b>Wir haben deine Adresse gelöscht.</div></div>
+    <p class="todo" data-state="fehler" hidden>Dieser Link ist leider ungültig oder abgelaufen. Trag dich einfach noch einmal ein.</p>
+    <div class="btns"><a class="btn" href="/abenteuer/die-piraten/">Zu Band 2</a></div>
+  </div></section>
+</Base>
+<script>
+  const s = new URLSearchParams(location.search).get('status') || 'fehler';
+  (document.querySelector(`[data-state="${s}"]`) ?? document.querySelector('[data-state="fehler"]'))!.removeAttribute('hidden');
+</script>

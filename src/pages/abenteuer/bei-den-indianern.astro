@@ -1,0 +1,80 @@
+---
+import Base from '../../layouts/Base.astro';
+import Player from '../../components/Player.astro';
+import LinkButtons from '../../components/LinkButtons.astro';
+import { band1 } from '../../data/site';
+
+const szenen = [
+  ['szene-01', 'Zuhause in Afrika'], ['szene-02', 'Aufwachen!'], ['szene-06', 'Der RaZeTu'],
+  ['szene-10', 'Gelandet. Aber wo?'], ['szene-14', 'Ein neuer Freund'], ['szene-19', 'AAARRR!'],
+  ['szene-22', 'Die Cowboys kommen'], ['szene-24', 'Und jetzt nach Hause?'],
+];
+// TODO: Bewertungen im Originalwortlaut von der alten Seite übernehmen
+const bewertungen = [
+  { name: 'Paula', text: 'Schon x-mal gelesen. Meine Tochter malt die Figuren nach und wartet auf Teil 2.' },
+  { name: 'Marc', text: 'Mit meinem Sohn (5) gelesen. Toll zum Vorlesen und für Erstleser.' },
+  { name: 'Miriam', text: 'Mein Sohn (7) liebt das Buch, und die Bilder sind wunderbar.' },
+];
+---
+<Base title={band1.titel} description="Band 1: Gröppel und Picky reisen ins Amerika des Jahres 1853. Als Buch und ab 15.11.2026 als Hörbuch." image="/img/buch-band1.webp">
+  <div class="book-hero">
+    <div class="wrap">
+      <img class="cover" src="/img/buch-band1.webp" alt={`Buchcover ${band1.titel}`} width="340" height="539">
+      <div class="stack" style="gap:20px">
+        <span class="eyebrow">Band 1 · Buch und Hörbuch</span>
+        <h1 style="font-size:clamp(2.3rem,6vw,4rem)">{band1.titel}</h1>
+        <p style="font-size:1.2rem">Wie kann das nur sein? Eben gerade noch stand das kleine Krokodil Gröppel mit seinem besten Freund Picky im Labor von Professor Einfred in ihrem Dorf in Afrika. Und nun befinden sie sich plötzlich bei Indianern im weit entfernten Amerika. Sind sie tatsächlich durch die Zeit gereist? Und wie kommen sie wieder nach Hause?</p>
+        <Player note="· ab 15.11. das ganze Hörbuch" style="background:var(--croc);color:#fff" />
+        <dl class="facts">
+          <dt>Alter</dt><dd>{band1.alter}</dd>
+          <dt>Text</dt><dd>Matthias Roberg</dd>
+          <dt>Bilder</dt><dd>Ludwig Tredup</dd>
+          <dt>Erschienen</dt><dd>{band1.erschienen}</dd>
+          <dt>ISBN</dt><dd>{band1.isbn}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <section class="band" style="padding-top:0">
+    <div class="wrap stack" style="gap:24px">
+      <h2>Hier gibt's das Abenteuer</h2>
+      <div class="buy">
+        <div class="sketch"><h3>Als Buch</h3><p>Gedruckt mit allen Bildern.</p><LinkButtons links={band1.buch} /></div>
+        <div class="sketch"><img src="/img/cover-hoerbuch.webp" alt="" style="width:96px;border:3px solid var(--line);border-radius:10px"><h3>Als Hörbuch</h3><p>Ab 15.11.2026 zum Streamen.</p><LinkButtons links={band1.hoerbuch} variant="blue" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" style="background:var(--paper-2)">
+    <div class="wrap stack" style="gap:20px">
+      <span class="eyebrow">Blick ins Buch</span>
+      <h2>Die Reise in Bildern</h2>
+      <div class="strip" tabindex="0" aria-label="Bilder aus dem Buch">
+        {szenen.map(([img, cap]) => <figure><img src={`/img/${img}.webp`} alt="" loading="lazy" /><figcaption>{cap}</figcaption></figure>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap stack" style="gap:24px">
+      <div class="stack" style="gap:8px"><span class="eyebrow">5 von 5 Sternen</span><h2>Das sagen Familien</h2></div>
+      <div class="quotes">
+        {bewertungen.map(b => <div class="quote sketch"><span class="stars" aria-label="5 von 5 Sternen">★★★★★</span><p>{b.text}</p><b>{b.name}</b></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="band" style="padding-top:0">
+    <div class="wrap">
+      <div class="true-story sketch">
+        <img src="/img/szene-21.webp" alt="Totempfahl unter Sternenhimmel" loading="lazy" style="border-radius:12px">
+        <div class="stack" style="gap:12px">
+          <span class="eyebrow">Stimmt es eigentlich?</span>
+          <h3 style="font-size:1.9rem">Quanah gab es wirklich</h3>
+          <p>Um 1853 lebten die Comanche im heutigen Texas. Häuptling Nocona, seine Frau Naduah und ihr Sohn Quanah sind echte Menschen aus dieser Zeit. Gröppel und Picky treffen also auf ein Stück echte Geschichte.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

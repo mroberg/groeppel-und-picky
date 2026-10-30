@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import RemindForm from '../../components/RemindForm.astro';
+import { band2 } from '../../data/site';
+---
+<Base title={band2.titel} description={`Band 2 erscheint im ${band2.erscheint}. Schau dir den Teaser an und lass dich erinnern.`} image="/img/schiff.webp">
+  <section class="pirates band">
+    <div class="wrap">
+      <div class="stack" style="gap:18px">
+        <span class="eyebrow">Band 2 · {band2.erscheint}</span>
+        <h1 style="font-size:clamp(2.3rem,6vw,4rem)">{band2.titel}</h1>
+        <p>Die Zeitmaschine spinnt schon wieder. Diesmal landen Gröppel und Picky mitten auf hoher See. Was sie dort erleben, verraten wir noch nicht. Aber den Anfang kannst du dir schon anschauen.</p>
+        <div class="wave" aria-hidden="true"></div>
+        <RemindForm />
+      </div>
+      <div class="video sketch" id="teaser">
+        <video controls preload="none" playsinline hidden src="/media/teaser-band2.mp4"></video>
+        <button class="poster" type="button" aria-label="Teaser zu Band 2 abspielen"><span>▶ Film ab!</span></button>
+      </div>
+    </div>
+  </section>
+</Base>
+<script>
+  const vbox = document.getElementById('teaser')!;
+  vbox.querySelector('.poster')!.addEventListener('click', e => {
+    const v = vbox.querySelector('video')!; v.hidden = false; (e.currentTarget as HTMLElement).hidden = true; v.play();
+  });
+</script>

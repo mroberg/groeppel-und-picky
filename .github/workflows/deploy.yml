@@ -1,0 +1,43 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency: deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: PHP-Abhängigkeiten für das Erinnerungs-Skript
+        run: |
+          cd server
+          composer install --no-dev --optimize-autoloader
+          mkdir -p ../dist/api
+          cp -r vendor lib.php erinnerung.php versand.php .htaccess ../dist/api/
+
+      - name: Hochladen per rsync über SSH
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PATH: ${{ secrets.SSH_PATH }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
+          rsync -az --delete --exclude '.well-known' \
+            -e "ssh -i ~/.ssh/id_deploy" dist/ "$SSH_USER@$SSH_HOST:$SSH_PATH/"

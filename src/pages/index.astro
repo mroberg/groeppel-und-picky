@@ -1,0 +1,126 @@
+---
+import Base from '../layouts/Base.astro';
+import Player from '../components/Player.astro';
+import LinkButtons from '../components/LinkButtons.astro';
+import FigurCards from '../components/FigurCards.astro';
+import Team from '../components/Team.astro';
+import RemindForm from '../components/RemindForm.astro';
+import { band1, band2, hoerbuchStart } from '../data/site';
+---
+<Base>
+  <div class="hero">
+    <div class="wrap">
+      <div class="stack" style="gap:22px">
+        <span class="eyebrow">Zeitreiseabenteuer für Kinder ab 6</span>
+        <h1><span class="g">Gröppel</span> und <span class="p">Picky</span> reisen durch die Zeit</h1>
+        <p class="lead">Ein kleines Krokodil, ein mutiger Vogel und eine Zeitmaschine, die nie ganz das tut, was sie soll.</p>
+        <div class="btns">
+          <a class="btn" href="#hoerbuch">Hörprobe anhören</a>
+          <a class="btn alt" href="/abenteuer/bei-den-indianern/">Zum Buch</a>
+        </div>
+      </div>
+      <div class="portal">
+        <img src="/img/hero.webp" alt="Gröppel und Picky fliegen durch den Zeitstrudel, Professor Einfred staunt" width="1500" height="1097" fetchpriority="high">
+        <div class="sticker">Neu:<br>das Hörbuch!</div>
+      </div>
+    </div>
+  </div>
+
+  <section class="listen band" id="hoerbuch">
+    <div class="wrap">
+      <img class="cover" src="/img/cover-hoerbuch.webp" alt="Cover des Hörbuchs Gröppel und Picky bei den Indianern" width="900" height="900" loading="lazy">
+      <div class="stack" style="gap:20px">
+        <span class="eyebrow">Band 1 als Hörbuch</span>
+        <h2 id="listen-title">Ab 15. November überall zum Hören</h2>
+        <div class="countdown" id="countdown" data-start={hoerbuchStart}>
+          <div><b id="cd-d">–</b><span>Tage</span></div>
+          <div><b id="cd-h">–</b><span>Stunden</span></div>
+          <div><b id="cd-m">–</b><span>Minuten</span></div>
+        </div>
+        <Player />
+        <LinkButtons links={band1.hoerbuch} />
+      </div>
+    </div>
+  </section>
+
+  <section class="pirates band">
+    <div class="wrap">
+      <div class="stack" style="gap:18px">
+        <span class="eyebrow">Band 2 · {band2.erscheint}</span>
+        <h2>{band2.titel}</h2>
+        <p>Die Zeitmaschine spinnt schon wieder. Diesmal landen die beiden mitten auf hoher See. Schau dir an, wie das neue Abenteuer beginnt.</p>
+        <div class="wave" aria-hidden="true"></div>
+        <RemindForm />
+      </div>
+      <div class="video sketch" id="teaser">
+        <video controls preload="none" playsinline hidden src="/media/teaser-band2.mp4"></video>
+        <button class="poster" type="button" aria-label="Teaser zu Band 2 abspielen"><span>▶ Film ab!</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap stack" style="gap:32px">
+      <div class="stack" style="gap:8px">
+        <span class="eyebrow">Das steht nicht im Buch</span>
+        <h2>Wer ist wer?</h2>
+        <p>Tipp auf eine Karte und erfahre ein Geheimnis. <a href="/figuren/">Noch mehr Geheimnisse</a></p>
+      </div>
+      <FigurCards />
+    </div>
+  </section>
+
+  <section class="band" style="background:var(--paper-2)">
+    <div class="wrap color-in">
+      <figure class="sketch" tabindex="0" id="colorfig">
+        <img src="/img/szene-03.webp" alt="Gröppel und Picky am Fluss, als Ausmalbild" loading="lazy">
+        <figcaption>Fahr mit der Maus drüber oder tipp drauf!</figcaption>
+      </figure>
+      <div class="stack" style="gap:18px">
+        <span class="eyebrow">Mitmachen</span>
+        <h2>Schnapp dir deine Buntstifte</h2>
+        <p>Vier Ausmalbilder warten auf dich. Kostenlos zum Ausdrucken, und welche Farbe Gröppel bekommt, entscheidest du.</p>
+        <div class="chips"><span>Skateboard</span><span>Piraten</span><span>Elefant</span><span>Schlange</span></div>
+        <div class="btns"><a class="btn" href="/mitmachen/">Ausmalbilder holen</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap stack" style="gap:28px">
+      <div class="stack" style="gap:8px"><span class="eyebrow">Wer steckt dahinter?</span><h2>Zwei Freunde aus Schleswig-Holstein</h2></div>
+      <Team />
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Countdown: verschwindet nach dem Start von selbst
+  const box = document.getElementById('countdown')!;
+  const launch = new Date(box.dataset.start!);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  function tick() {
+    const ms = launch.getTime() - Date.now();
+    if (ms <= 0) {
+      box.hidden = true;
+      document.getElementById('listen-title')!.textContent = 'Jetzt überall zum Hören!';
+      document.querySelectorAll('[data-player] small[data-time]').forEach(t => t.textContent = '· das ganze Hörbuch gibt es auf Spotify und Audible');
+      return false;
+    }
+    document.getElementById('cd-d')!.textContent = String(Math.floor(ms / 864e5));
+    document.getElementById('cd-h')!.textContent = pad(Math.floor(ms / 36e5) % 24);
+    document.getElementById('cd-m')!.textContent = pad(Math.floor(ms / 6e4) % 60);
+    return true;
+  }
+  if (tick()) { const id = setInterval(() => { if (!tick()) clearInterval(id) }, 30000) }
+
+  // Teaser-Video
+  const vbox = document.getElementById('teaser')!;
+  vbox.querySelector('.poster')!.addEventListener('click', e => {
+    const v = vbox.querySelector('video')!; v.hidden = false; (e.currentTarget as HTMLElement).hidden = true; v.play();
+  });
+
+  // Ausmalbild antippen
+  const fig = document.getElementById('colorfig')!;
+  fig.addEventListener('click', () => fig.classList.toggle('on'));
+</script>

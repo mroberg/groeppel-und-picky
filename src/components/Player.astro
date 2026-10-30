@@ -1,0 +1,23 @@
+---
+interface Props { note?: string; style?: string }
+const { note = '· eingesprochen von Matthias Roberg', style } = Astro.props;
+---
+<div class="player" data-player style={style}>
+  <button class="play" type="button" aria-label="Hörprobe abspielen"><svg viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg></button>
+  <div class="track"><b>Hörprobe</b> <small data-time>{note}</small><div class="bar"><i></i></div></div>
+  <audio preload="none" src="/media/hoerprobe-band1.mp3"></audio>
+</div>
+<script>
+  const play = '<path d="M7 4v16l13-8z"/>', pause = '<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>';
+  document.querySelectorAll<HTMLElement>('[data-player]').forEach(p => {
+    const a = p.querySelector('audio')!, btn = p.querySelector('.play')!, bar = p.querySelector<HTMLElement>('.bar')!, fill = bar.querySelector<HTMLElement>('i')!;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('audio').forEach(o => o !== a && o.pause());
+      a.paused ? a.play() : a.pause();
+    });
+    a.addEventListener('play', () => { btn.querySelector('svg')!.innerHTML = pause; btn.setAttribute('aria-label', 'Hörprobe pausieren') });
+    a.addEventListener('pause', () => { btn.querySelector('svg')!.innerHTML = play; btn.setAttribute('aria-label', 'Hörprobe abspielen') });
+    a.addEventListener('timeupdate', () => { if (a.duration) fill.style.width = (a.currentTime / a.duration * 100) + '%' });
+    bar.addEventListener('click', e => { if (a.duration) { const r = bar.getBoundingClientRect(); a.currentTime = (e.clientX - r.left) / r.width * a.duration } });
+  });
+</script>

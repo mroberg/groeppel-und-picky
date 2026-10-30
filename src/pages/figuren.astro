@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import FigurCards from '../components/FigurCards.astro';
+---
+<Base title="Figuren" description="Geheime Infos über Gröppel, Picky und Professor Einfred, die nicht im Buch stehen.">
+  <div class="page-head"><div class="wrap stack" style="gap:8px"><span class="eyebrow">Das steht nicht im Buch</span><h1>Wer ist wer?</h1><p>Tipp auf eine Karte und erfahre ein Geheimnis.</p></div></div>
+  <section class="band" style="padding-top:24px">
+    <div class="wrap stack" style="gap:40px">
+      <FigurCards />
+      <div class="prose">
+        <h2>Noch mehr Geheimnisse</h2>
+        <p><b>Gröppel</b> geht in die Grundschule und wechselt bald auf eine neue Schule. Er hat ein Lieblingsschimpfwort, das aus Norddeutschland kommt.</p>
+        <p><b>Picky</b> ist ein Krokodilwächter-Vogel. Man erzählt sich, dass solche Vögel den Krokodilen die Zähne putzen.</p>
+        <p><b>Professor Einfred</b> trägt immer seine Brille mit den großen runden Gläsern. Die Bücher von Albert Einstein über die Zeit haben ihn auf die Idee für den RaZeTu gebracht.</p>
+        <p class="todo">TODO: Texte von Matthias prüfen lassen (sinngemäß von der alten Seite übernommen).</p>
+      </div>
+    </div>
+  </section>
+</Base>

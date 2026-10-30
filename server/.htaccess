@@ -1,0 +1,5 @@
+# Nur der öffentliche Endpunkt ist erreichbar
+Require all denied
+<Files "erinnerung.php">
+  Require all granted
+</Files>
