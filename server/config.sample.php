@@ -16,5 +16,5 @@ return [
         'from'     => 'post@groeppel-und-picky.de',
         'fromName' => 'Gröppel und Picky',
     ],
-    'baseUrl' => 'https://www.groeppel-und-picky.de',
+    'baseUrl' => 'https://groeppel-und-picky.de',
 ];
