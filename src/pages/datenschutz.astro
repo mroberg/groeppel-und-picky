@@ -1,11 +1,43 @@
 ---
 import Base from '../layouts/Base.astro';
+import { kontakt } from '../data/site';
 ---
-<Base title="Datenschutz">
+<Base title="Datenschutz" description="Datenschutzerklärung von groeppel-und-picky.de">
   <div class="page-head"><div class="wrap"><h1>Datenschutz</h1></div></div>
   <section class="band" style="padding-top:24px">
-    <div class="wrap prose">
-      <p class="todo">TODO: Text von der alten Seite übernehmen und anpassen. Neu: keine Google Fonts mehr, Hosting auf eigenem Server, Abschnitt zur Erinnerungs-E-Mail (Double-Opt-in, Löschung nach Versand).</p>
+    <div class="wrap prose legal">
+      <p>Kurz gesagt: Diese Seite setzt keine Cookies, nutzt keine Analyse- oder Werbedienste und lädt nichts von fremden Servern. Personenbezogene Daten verarbeiten wir nur, wenn du dich für die Erinnerung an Band 2 einträgst. Die Einzelheiten stehen unten.</p>
+
+      <h2>1. Verantwortlicher</h2>
+      <p>{kontakt.name}<br>{kontakt.strasse}<br>{kontakt.ort}<br>E-Mail: <a href={`mailto:${kontakt.email}`}>{kontakt.email}</a></p>
+
+      <h2>2. Hosting und Server-Logfiles</h2>
+      <p>Die Seite liegt auf einem Server von <span class="todo">[Hoster eintragen]</span>. Beim Aufruf speichert der Server automatisch technische Daten: IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, Referrer, Browser und Betriebssystem. Das ist für einen sicheren und stabilen Betrieb nötig (Art. 6 Abs. 1 lit. f DSGVO). Die Logfiles werden nach <span class="todo">[7]</span> Tagen gelöscht. Mit dem Hoster besteht ein Vertrag zur Auftragsverarbeitung.</p>
+
+      <h2>3. Keine Cookies, keine Analyse, keine externen Schriften</h2>
+      <p>Wir setzen keine Cookies und keine Tracking- oder Analysewerkzeuge ein. Schriften, Bilder, Hörprobe und Video liegen auf unserem eigenen Server. Beim Abspielen werden daher keine Daten an Dritte übertragen.</p>
+
+      <h2>4. Erinnerung an Band 2</h2>
+      <p>Wenn du dich für die Erinnerung einträgst, speichern wir deine E-Mail-Adresse, den Zeitpunkt der Anmeldung und der Bestätigung. Zum Schutz vor Missbrauch speichern wir außerdem einen nicht umkehrbaren Hashwert deiner IP-Adresse, der täglich wechselt. Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO).</p>
+      <p>Wir verwenden das Double-Opt-in-Verfahren: Erst wenn du den Link in der Bestätigungsmail anklickst, bist du eingetragen. Unbestätigte Einträge löschen wir nach 7 Tagen. Wenn Band 2 erscheint, schicken wir dir genau eine E-Mail und löschen deine Adresse danach. Du kannst deine Einwilligung jederzeit widerrufen, eine kurze E-Mail an uns genügt.</p>
+      <p>Die E-Mails verschicken wir über den Mailserver von <span class="todo">[SMTP-Anbieter eintragen]</span>.</p>
+
+      <h2>5. Kontakt per E-Mail</h2>
+      <p>Wenn du uns schreibst, verwenden wir deine Angaben nur, um deine Nachricht zu beantworten (Art. 6 Abs. 1 lit. b bzw. f DSGVO), und löschen sie, wenn sie nicht mehr gebraucht werden.</p>
+
+      <h2>6. Links zu Shops und Streamingdiensten</h2>
+      <p>Wir verlinken auf Buchhändler wie BoD, Thalia, Amazon, Lehmanns und bol.com sowie auf Spotify und Audible. Das sind einfache Links. Erst wenn du einen anklickst, gelangst du auf die Seite des jeweiligen Anbieters, und dort gelten dessen Datenschutzbestimmungen.</p>
+
+      <h2>7. Facebook und Instagram</h2>
+      <p>Wir betreiben Seiten bei Facebook und Instagram (Meta Platforms Ireland Ltd., Merrion Road, Dublin 4, Irland). Auf dieser Website sind keine Plugins von Meta eingebunden, es gibt nur Links. Wenn du unsere Seiten bei Meta besuchst, verarbeitet Meta deine Daten auch für Statistiken, die wir als Seitenbetreiber erhalten. Dafür sind wir gemeinsam mit Meta verantwortlich (Art. 26 DSGVO). Die Vereinbarung dazu und Informationen zu deinen Rechten findest du bei Meta unter „Seiten-Insights-Ergänzung“.</p>
+
+      <h2>8. Deine Rechte</h2>
+      <p>Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch (Art. 15 bis 21 DSGVO) sowie das Recht, eine Einwilligung jederzeit zu widerrufen. Du kannst dich außerdem bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel beim Unabhängigen Landeszentrum für Datenschutz Schleswig-Holstein (ULD), Holstenstraße 98, 24103 Kiel.</p>
+
+      <h2>9. Verschlüsselung</h2>
+      <p>Die Seite wird ausschließlich über eine verschlüsselte Verbindung (HTTPS) ausgeliefert.</p>
+
+      <p><small>Stand: November 2026</small></p>
     </div>
   </section>
 </Base>

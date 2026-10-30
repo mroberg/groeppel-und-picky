@@ -27,7 +27,10 @@ Liegt in `server/` und wird beim Deploy nach `/api/` kopiert.
 3. Wenn Band 2 erscheint, per SSH im Ordner `httpdocs/api`:
    `php versand.php --test=deine@adresse.de`, danach `php versand.php --los`.
 
-## Deploy
+## Deploy über Plesk
 
-Jeder Push auf `main` baut die Seite und lädt sie per rsync über SSH hoch (`.github/workflows/deploy.yml`).
-Nötige Secrets im GitHub-Repo: `SSH_HOST`, `SSH_USER`, `SSH_KEY` (privater Schlüssel), `SSH_PATH` (z. B. der `httpdocs`-Ordner der Test-Subdomain).
+Plesk holt bei jedem Push auf `main` den neuen Stand von GitHub und führt `scripts/plesk-deploy.sh` aus.
+Das Skript baut die Seite, installiert PHPMailer und kopiert alles in den Webordner.
+
+Voraussetzungen und Einrichtung stehen in `docs/plesk-einrichtung.md`.
+GitHub Actions prüft nur, ob die Seite fehlerfrei baut.

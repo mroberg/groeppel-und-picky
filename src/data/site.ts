@@ -17,7 +17,11 @@ export const band1 = {
     { name: 'BoD', url: 'https://www.bod.de/buchshop/groeppel-und-picky-bei-den-indianern-matthias-roberg-9783752627657' },
     { name: 'Thalia', url: 'https://www.thalia.de/shop/home/artikeldetails/ID150383577.html' },
     { name: 'Amazon', url: 'https://www.amazon.de/dp/3752627654/' },
-    // TODO: genialokal und E-Book-Links ergänzen, sobald Matthias sie schickt
+  ],
+  ebook: [
+    { name: 'Kindle', url: 'https://www.amazon.de/dp/B08QN3JW8X' },
+    { name: 'Lehmanns', url: 'https://www.lehmanns.de/shop/kinderbuch-jugenbuch/55768081-9783752638059-groeppel-und-picky-bei-den-indianern' },
+    { name: 'bol.com', url: 'https://www.bol.com/be/nl/p/groppel-und-picky-groppel-und-picky-bei-den-indianern-ebook/9300000020240196/' },
   ],
   hoerbuch: [
     { name: 'Spotify', url: 'https://open.spotify.com/show/12fxUnJWacBdZYzc6Da2KF' },
@@ -31,8 +35,16 @@ export const band2 = {
 };
 
 export const ausmalbilder = [
-  { titel: 'Gröppel und Picky auf dem Skateboard', datei: 'Ausmalbild-Skateboard.pdf' },
-  { titel: 'Gröppel und Picky als Piraten', datei: 'Ausmalbild-Pirat.pdf' },
-  { titel: 'Gröppel und Picky mit Elefanten', datei: 'Ausmalbild-Elefant.pdf' },
-  { titel: 'Gröppel und Picky und die Schlange', datei: 'Ausmalbild-Schlange.pdf' },
+  { titel: 'Gröppel und Picky auf dem Skateboard', datei: 'Ausmalbild-Skateboard.pdf', vorschau: 'ausmalbild-skateboard.webp' },
+  { titel: 'Gröppel und Picky als Piraten', datei: 'Ausmalbild-Pirat.pdf', vorschau: 'ausmalbild-pirat.webp' },
+  { titel: 'Gröppel und Picky mit Elefanten', datei: 'Ausmalbild-Elefant.pdf', vorschau: 'ausmalbild-elefant.webp' },
+  { titel: 'Gröppel und Picky und die Schlange', datei: 'Ausmalbild-Schlange.pdf', vorschau: 'ausmalbild-schlange.webp' },
 ];
+
+export const kontakt = {
+  name: 'Matthias Roberg',
+  strasse: 'Im Siek 19',
+  ort: '23845 Itzstedt',
+  telefon: '+49 173 2319305',
+  email: 'kontakt@groeppel-und-picky.de',
+};

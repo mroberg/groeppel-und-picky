@@ -1,0 +1,21 @@
+name: Build-Check
+
+# Prüft bei jedem Push, ob die Seite fehlerfrei baut.
+# Das eigentliche Hochladen übernimmt Plesk (siehe README).
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: PHP-Syntax prüfen
+        run: for f in server/*.php; do php -l "$f"; done

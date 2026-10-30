@@ -1,11 +1,37 @@
 ---
 import Base from '../layouts/Base.astro';
+import { kontakt, social } from '../data/site';
 ---
-<Base title="Impressum">
+<Base title="Impressum" description="Impressum von groeppel-und-picky.de">
   <div class="page-head"><div class="wrap"><h1>Impressum</h1></div></div>
   <section class="band" style="padding-top:24px">
-    <div class="wrap prose">
-      <p class="todo">TODO: Text von der alten Seite übernehmen und anpassen.</p>
+    <div class="wrap prose legal">
+      <h2>Angaben gemäß § 5 DDG</h2>
+      <p>{kontakt.name}<br>{kontakt.strasse}<br>{kontakt.ort}<br>Deutschland</p>
+
+      <h2>Kontakt</h2>
+      <p>Telefon: {kontakt.telefon}<br>E-Mail: <a href={`mailto:${kontakt.email}`}>{kontakt.email}</a></p>
+
+      <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+      <p>{kontakt.name}, Anschrift wie oben</p>
+
+      <h2>Bildrechte</h2>
+      <p>Alle Illustrationen von Gröppel und Picky: Ludwig Tredup.</p>
+
+      <h2>Social Media</h2>
+      <p>Dieses Impressum gilt auch für unsere Auftritte bei <a href={social.facebook}>Facebook</a> und <a href={social.instagram}>Instagram</a>.</p>
+
+      <h2>Verbraucherstreitbeilegung</h2>
+      <p>Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+      <h2>Haftung für Inhalte</h2>
+      <p>Wir erstellen die Inhalte dieser Seite mit Sorgfalt, können für Richtigkeit, Vollständigkeit und Aktualität aber keine Gewähr übernehmen. Nach §§ 8 bis 10 DDG sind wir nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen. Sobald wir von einer Rechtsverletzung erfahren, entfernen wir die betroffenen Inhalte umgehend.</p>
+
+      <h2>Haftung für Links</h2>
+      <p>Diese Seite enthält Links zu externen Websites, etwa zu Buchhändlern und Streamingdiensten. Für deren Inhalte ist allein der jeweilige Anbieter verantwortlich. Zum Zeitpunkt der Verlinkung waren keine Rechtsverstöße erkennbar. Werden uns Rechtsverletzungen bekannt, entfernen wir den Link umgehend.</p>
+
+      <h2>Urheberrecht</h2>
+      <p>Texte, Illustrationen, Audio und Video auf dieser Seite unterliegen dem deutschen Urheberrecht. Die Ausmalbilder dürfen für den privaten, nicht kommerziellen Gebrauch heruntergeladen und ausgedruckt werden. Jede andere Verwendung braucht unsere schriftliche Zustimmung.</p>
     </div>
   </section>
 </Base>

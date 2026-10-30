@@ -41,6 +41,7 @@ const bewertungen = [
       <h2>Hier gibt's das Abenteuer</h2>
       <div class="buy">
         <div class="sketch"><h3>Als Buch</h3><p>Gedruckt mit allen Bildern.</p><LinkButtons links={band1.buch} /></div>
+        <div class="sketch"><h3>Als E-Book</h3><p>Zum Lesen auf dem Tablet oder E-Reader.</p><LinkButtons links={band1.ebook} variant="alt" /></div>
         <div class="sketch"><img src="/img/cover-hoerbuch.webp" alt="" style="width:96px;border:3px solid var(--line);border-radius:10px"><h3>Als Hörbuch</h3><p>Ab 15.11.2026 zum Streamen.</p><LinkButtons links={band1.hoerbuch} variant="blue" /></div>
       </div>
     </div>
@@ -78,3 +79,7 @@ const bewertungen = [
     </div>
   </section>
 </Base>
+<style>
+  .buy { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+  @media (max-width: 980px) { .buy { grid-template-columns: 1fr } }
+</style>
