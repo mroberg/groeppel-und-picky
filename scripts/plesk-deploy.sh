@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Baut die Seite und kopiert sie in den Webordner.
 # Wird von Plesk unter „Git > Zusätzliche Bereitstellungsaktionen“ aufgerufen:
-#   bash scripts/plesk-deploy.sh /var/www/vhosts/groeppel-und-picky.de/neu.groeppel-und-picky.de/public
+#   bash scripts/plesk-deploy.sh ../public
 set -euo pipefail
 
 TARGET="${1:?Bitte den Zielordner (Dokumentenstamm) angeben}"

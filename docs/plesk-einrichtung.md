@@ -25,8 +25,10 @@ Beispiel für die Test-Subdomain `neu.groeppel-und-picky.de`. Für den Livegang 
 5. **Zusätzliche Bereitstellungsaktionen** aktivieren:
 
    ```
-   bash scripts/plesk-deploy.sh /var/www/vhosts/groeppel-und-picky.de/neu.groeppel-und-picky.de/public
+   bash scripts/plesk-deploy.sh ../public
    ```
+
+   Den Zielordner relativ angeben: Die Aktion läuft im Bereitstellungspfad (`…/src`), und in einer chrooted Shell gibt es den Pfad `/var/www/vhosts/…` nicht.
 
 6. Für automatische Updates: In Plesk die **Webhook-URL** kopieren und in GitHub unter *Settings → Webhooks* eintragen (Content type `application/json`, nur Push-Events).
 
