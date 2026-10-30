@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://groeppel-und-picky.de/sitemap.xml
