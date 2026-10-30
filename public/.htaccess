@@ -5,11 +5,7 @@ Options -Indexes
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
-# Immer https und www
-RewriteCond %{HTTPS} off [OR]
-RewriteCond %{HTTP_HOST} !^www\. [NC]
-RewriteCond %{HTTP_HOST} ^(?:www\.)?(groeppel-und-picky\.de)$ [NC]
-RewriteRule ^ https://www.%1%{REQUEST_URI} [R=301,L]
+# https und www/ohne www regelt Plesk (Hosting-Einstellungen), nicht diese Datei.
 
 # Alte WordPress-Adressen auf die neuen Seiten
 RewriteRule ^geheimnisse/?$ /figuren/ [R=301,L]

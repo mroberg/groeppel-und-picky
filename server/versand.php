@@ -13,14 +13,19 @@ $text = "Hallo!\n\nEs ist so weit: \"Gröppel und Picky und die Piraten\" ist er
         "Wie versprochen ist das unsere einzige E-Mail an dich. Deine Adresse haben wir jetzt gelöscht.\n\n" .
         "Viele Grüße\nGröppel und Picky";
 $subject = 'Die Piraten sind da! Gröppel und Picky Band 2 ist erschienen';
+$html = mailHtml('Ahoi, die Piraten sind da!',
+    '<p>Hallo!</p><p>Es ist so weit: <b>Gröppel und Picky und die Piraten</b> ist erschienen!</p>' .
+    '<p><a class="btn" href="' . $base . '/abenteuer/die-piraten/">Zum neuen Abenteuer</a></p>' .
+    '<p>Wie versprochen ist das unsere einzige E-Mail an dich. Deine Adresse haben wir jetzt gelöscht.</p>' .
+    '<p>Viele Grüße<br>Gröppel und Picky</p>', 'mail-groeppel.png');
 
-if (isset($opts['test'])) { sendMail($opts['test'], $subject, $text); echo "Testmail verschickt.\n"; exit; }
+if (isset($opts['test'])) { sendMail($opts['test'], $subject, $text, $html); echo "Testmail verschickt.\n"; exit; }
 if (!isset($opts['los'])) { echo "Bitte --test=adresse oder --los angeben.\n"; exit(1); }
 
 $rows = db()->query('SELECT id, email FROM erinnerung WHERE bestaetigt IS NOT NULL')->fetchAll(PDO::FETCH_ASSOC);
 $del = db()->prepare('DELETE FROM erinnerung WHERE id = ?');
 foreach ($rows as $r) {
-    try { sendMail($r['email'], $subject, $text); $del->execute([$r['id']]); echo "ok  {$r['email']}\n"; }
+    try { sendMail($r['email'], $subject, $text, $html); $del->execute([$r['id']]); echo "ok  {$r['email']}\n"; }
     catch (Throwable $e) { echo "FEHLER {$r['email']}: {$e->getMessage()}\n"; }
     usleep(300000);
 }

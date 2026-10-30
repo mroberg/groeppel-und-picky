@@ -51,12 +51,19 @@ $row = $st->fetch(PDO::FETCH_ASSOC);
 if ($row['bestaetigt'] !== null) json(['ok' => true]); // schon eingetragen, keine zweite Mail
 
 try {
-    sendMail($email, 'Bitte bestätigen: Erinnerung an Gröppel und Picky Band 2',
-        "Hallo!\n\nDu möchtest erfahren, wann \"Gröppel und Picky und die Piraten\" erscheint.\n" .
-        "Bitte bestätige deine Adresse mit diesem Link:\n\n$base/api/erinnerung.php?t={$row['token']}&a=ok\n\n" .
+    $link = "$base/api/erinnerung.php?t={$row['token']}&a=ok";
+    $text = "Hallo!\n\nDu möchtest erfahren, wann \"Gröppel und Picky und die Piraten\" erscheint.\n" .
+        "Bitte bestätige deine Adresse mit diesem Link:\n\n$link\n\n" .
         "Wir schicken dir genau eine E-Mail, wenn das Buch da ist, und löschen deine Adresse danach.\n" .
-        "Wenn du dich nicht eingetragen hast, ignoriere diese E-Mail einfach. Ohne Bestätigung wird nichts gespeichert, " .
-        "der Eintrag verfällt nach 7 Tagen.\n\nViele Grüße\nGröppel und Picky");
+        "Wenn du dich nicht eingetragen hast, ignoriere diese E-Mail einfach. Ohne Bestätigung verfällt der Eintrag nach 7 Tagen.\n\n" .
+        "Viele Grüße\nGröppel und Picky";
+    $html = mailHtml('Fast geschafft!',
+        '<p>Hallo!</p><p>Du möchtest erfahren, wann <b>Gröppel und Picky und die Piraten</b> erscheint. Klick auf den Knopf, dann bist du dabei:</p>' .
+        '<p><a class="btn" href="' . htmlspecialchars($link) . '">Ja, erinnert mich!</a></p>' .
+        '<p>Wir schicken dir genau eine E-Mail, wenn das Buch da ist, und löschen deine Adresse danach.</p>' .
+        '<p style="font-size:13px;color:#4d564f">Du hast dich nicht eingetragen? Dann ignoriere diese E-Mail einfach. Ohne Bestätigung verfällt der Eintrag nach 7 Tagen.</p>' .
+        '<p>Viele Grüße<br>Gröppel und Picky</p>');
+    sendMail($email, 'Bitte bestätigen: Erinnerung an Gröppel und Picky Band 2', $text, $html);
 } catch (Throwable $e) {
     error_log('Erinnerung: ' . $e->getMessage());
     json(['ok' => false, 'error' => 'Die Bestätigungsmail konnte nicht verschickt werden.'], 500);

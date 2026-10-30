@@ -17,6 +17,4 @@ return [
         'fromName' => 'Gröppel und Picky',
     ],
     'baseUrl' => 'https://www.groeppel-und-picky.de',
-    // Geheimer Schlüssel für den Versand-Befehl (php versand.php), beliebige lange Zeichenkette
-    'adminKey' => '***',
 ];
