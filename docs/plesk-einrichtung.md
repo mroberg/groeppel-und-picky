@@ -4,7 +4,7 @@ Beispiel für die Test-Subdomain `neu.groeppel-und-picky.de`. Für den Livegang 
 
 ## 1. Voraussetzungen im Abonnement
 
-- **Node.js 22.12 oder neuer** (Plesk-Erweiterung „Node.js“). Das Skript erwartet Node unter `/opt/plesk/node/22/bin`. Liegt es woanders, die Variable `NODE_BIN` anpassen.
+- **Node.js 22.12 oder neuer** (Plesk-Erweiterung „Node.js“, dort die Version installieren). Das Skript nimmt automatisch die neueste Version unter `/opt/plesk/node/`. Liegt Node woanders, `NODE_BIN=/pfad/zu/bin` vor den Befehl setzen.
 - **Composer** auf der Kommandozeile erreichbar. Sonst `COMPOSER=/pfad/zu/composer` setzen.
 - **SSH-Zugang** für den Systembenutzer des Abonnements auf `/bin/bash` (nicht „chrooted“), damit die Bereitstellungsaktion Node und Composer findet.
 - **PHP 8.2 oder neuer** für die Subdomain (8.5 passt).
