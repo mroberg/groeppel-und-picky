@@ -1,5 +1,5 @@
 /* Gröppel und Picky – globale Styles.
-   Layout: Abenteuer-Skizzenbuch. Papiergrund, Filzstift-Linien, Ludwigs Szenen groß und fast randlos. Dunkel = Nacht im Lager (Szene 17). */
+   Layout: Abenteuer-Skizzenbuch. Papiergrund, Filzstift-Linien, Ludwigs Szenen groß und fast randlos. Immer hell: Papierton auch bei dunklem Systemmodus. */
 :root {
   --paper: #fffcf3;
   --paper-2: #f6f0de;
@@ -15,15 +15,8 @@
   --display: "Gluten", "Comic Sans MS", "Chalkboard SE", cursive;
   --body: "Andika", "Trebuchet MS", system-ui, sans-serif;
   --r: 18px;
+  color-scheme: light;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --paper: #1c2531; --paper-2: #26313f; --ink: #f4efe0; --ink-soft: #c3c9cf;
-  --croc: #5cc78d; --croc-deep: #8fe0b2; --picky: #7fb6f0; --sun: #f7d33f; --orange: #f6a24e;
-  --line: #f4efe0; --on-accent: #10161d; color-scheme: dark } }
-:root[data-theme="dark"] {
-  --paper: #1c2531; --paper-2: #26313f; --ink: #f4efe0; --ink-soft: #c3c9cf;
-  --croc: #5cc78d; --croc-deep: #8fe0b2; --picky: #7fb6f0; --sun: #f7d33f; --orange: #f6a24e;
-  --line: #f4efe0; --on-accent: #10161d; color-scheme: dark }
 
 * { box-sizing: border-box }
 [hidden] { display: none !important }
