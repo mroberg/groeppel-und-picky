@@ -15,7 +15,13 @@ RewriteRule ^bewertung/?$ /abenteuer/bei-den-indianern/ [R=301,L]
 RewriteRule ^shop(/.*)?$ /abenteuer/bei-den-indianern/ [R=301,L]
 RewriteRule ^datenschutzhinweise/?$ /datenschutz/ [R=301,L]
 RewriteRule ^(weihnachten-kommt-bald|unser-ostergewinnspiel-2021|erscheinungsdatum-groeppel-und-picky-band-1)/?$ / [R=301,L]
-RewriteRule ^(feed|wp-admin|wp-login\.php|wp-json|category|author)(/.*)?$ / [R=301,L]
+RewriteRule ^(feed|wp-admin|wp-login\.php|wp-json|category|author|tag|page)(/.*)?$ / [R=301,L]
+
+# Alte Ausmalbilder-PDFs aus der WordPress-Mediathek auf die neuen Dateien
+RewriteRule ^wp-content/uploads/.*(Ausmalbild-(Skateboard|Pirat|Elefant|Schlange))[^/]*\.pdf$ /ausmalbilder/$1.pdf [R=301,L,NC]
+# Alle übrigen alten Mediendateien auf die Startseite
+RewriteRule ^wp-content/ / [R=301,L]
+RewriteRule ^(\d{4})/\d{2}/ / [R=301,L]
 </IfModule>
 
 <IfModule mod_expires.c>
