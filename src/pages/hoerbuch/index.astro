@@ -1,0 +1,111 @@
+---
+// Landingpage zum Hörbuchstart: Countdown bis zum Start, danach „Jetzt hören“.
+// Kurz-Adresse zum Teilen: groeppel-und-picky.de/hoerbuch
+import Base from '../../layouts/Base.astro';
+import Player from '../../components/Player.astro';
+import LinkInline from '../../components/LinkInline.astro';
+import { band1, hoerbuchStart } from '../../data/site';
+const teilenText = encodeURIComponent('Gröppel und Picky gibt es jetzt als Hörbuch! Hör mal rein: https://groeppel-und-picky.de/hoerbuch/');
+---
+<Base title="Das Hörbuch · Gröppel und Picky bei den Indianern" image="/img/og/hoerbuch.jpg" description="Gröppel und Picky bei den Indianern als Hörbuch: ab 15. November 2026 auf Spotify, Audible und überall, wo es Hörbücher gibt. Jetzt reinhören!">
+  <section class="hb" id="hb" data-start={hoerbuchStart}>
+    <div class="wrap hb-grid">
+      <div class="hb-cover">
+        <img src="/img/cover-hoerbuch.webp" alt="Cover des Hörbuchs Gröppel und Picky bei den Indianern" width="900" height="900" fetchpriority="high" />
+        <div class="sticker hb-sticker" data-vor>Ab<br>15.11.!</div>
+        <div class="sticker hb-sticker" data-nach hidden>Jetzt<br>da!</div>
+      </div>
+      <div class="stack hb-text" style="gap:20px">
+        <span class="eyebrow">Das Hörbuch zu Band 1</span>
+        <h1 data-vor>Gleich geht die Zeitreise los!</h1>
+        <h1 data-nach hidden>Jetzt überall zum Hören!</h1>
+        <p class="hb-lead">„{band1.titel}“, gelesen von Matthias Roberg. Für Kinder ab 4 zum Zuhören, im Auto, beim Einschlafen und überall dazwischen.</p>
+
+        <div class="hb-count" data-vor aria-live="off">
+          <div><b id="hb-d">–</b><span>Tage</span></div>
+          <div><b id="hb-h">–</b><span>Stunden</span></div>
+          <div><b id="hb-m">–</b><span>Minuten</span></div>
+          <div><b id="hb-s">–</b><span>Sekunden</span></div>
+        </div>
+
+        <div class="hb-hoeren" data-nach hidden>
+          {band1.hoerbuch.map(l => <a class="btn big" href={l.url} target="_blank" rel="noopener">Auf {l.name} hören</a>)}
+        </div>
+
+        <Player note="· schon jetzt reinhören" style="background:#fff;color:#1d2420" />
+
+        <div class="btns hb-mini">
+          <a class="btn alt" href="/media/hoerbuch-start.ics" data-vor download>In den Kalender eintragen</a>
+          <a class="btn alt" href={`https://wa.me/?text=${teilenText}`} target="_blank" rel="noopener">Per WhatsApp teilen</a>
+          <a class="btn alt" href="/abenteuer/bei-den-indianern/">Lieber als Buch?</a>
+        </div>
+        <p class="hb-vor-links" data-vor>Schon vormerken: <LinkInline links={band1.hoerbuch} /></p>
+      </div>
+    </div>
+    <canvas class="konfetti" aria-hidden="true"></canvas>
+  </section>
+</Base>
+
+<script>
+  const hb = document.getElementById('hb')!;
+  const start = new Date(hb.dataset.start!).getTime();
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const set = (id: string, v: string) => { document.getElementById(id)!.textContent = v };
+  let gefeiert = false;
+  function tick() {
+    const ms = start - Date.now();
+    const da = ms <= 0;
+    hb.querySelectorAll<HTMLElement>('[data-vor]').forEach(e => e.hidden = da);
+    hb.querySelectorAll<HTMLElement>('[data-nach]').forEach(e => e.hidden = !da);
+    if (da) { if (!gefeiert) { gefeiert = true; konfetti(); } return false; }
+    set('hb-d', String(Math.floor(ms / 864e5)));
+    set('hb-h', pad(Math.floor(ms / 36e5) % 24));
+    set('hb-m', pad(Math.floor(ms / 6e4) % 60));
+    set('hb-s', pad(Math.floor(ms / 1e3) % 60));
+    return true;
+  }
+  if (tick()) { const id = setInterval(() => { if (!tick()) clearInterval(id) }, 1000) }
+
+  function konfetti() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const c = hb.querySelector('canvas')!, ctx = c.getContext('2d')!;
+    const farben = ['#1f7a4c', '#2f78c8', '#f7d33f', '#ee8a23', '#e2312b'];
+    const resize = () => { c.width = hb.clientWidth; c.height = hb.clientHeight };
+    resize();
+    const teile = Array.from({ length: 140 }, () => ({
+      x: Math.random() * c.width, y: -20 - Math.random() * c.height * .6, r: 4 + Math.random() * 6,
+      vy: 1.5 + Math.random() * 2.5, vx: -1 + Math.random() * 2, w: Math.random() * 6, f: farben[Math.floor(Math.random() * farben.length)],
+    }));
+    let t0 = performance.now();
+    (function frame(t: number) {
+      ctx.clearRect(0, 0, c.width, c.height);
+      teile.forEach(p => { p.y += p.vy; p.x += p.vx + Math.sin((t / 300) + p.w); ctx.fillStyle = p.f; ctx.fillRect(p.x, p.y, p.r, p.r * .6) });
+      if (t - t0 < 6000) requestAnimationFrame(frame); else ctx.clearRect(0, 0, c.width, c.height);
+    })(t0);
+  }
+</script>
+
+<style>
+  .hb { position: relative; overflow: hidden; background: var(--croc); color: #fff; padding-block: clamp(40px, 8vw, 96px); min-height: calc(100svh - 80px); display: grid; align-items: center }
+  .hb-grid { display: grid; grid-template-columns: minmax(0, 440px) 1fr; gap: clamp(28px, 6vw, 72px); align-items: center; position: relative; z-index: 1 }
+  .hb-cover { position: relative }
+  .hb-cover img { width: 100%; height: auto; border: 4px solid #1d2420; border-radius: 16px; box-shadow: 10px 10px 0 #1d2420; transform: rotate(-2deg); animation: schweben 5s ease-in-out infinite }
+  .hb-sticker { right: -14px; bottom: -18px; width: 128px; font-size: 1.15rem }
+  .hb .eyebrow { color: var(--sun) }
+  .hb h1 { font-size: clamp(2.3rem, 5.5vw, 4rem); color: #fff }
+  .hb-lead { font-size: 1.2rem; max-width: 40ch; opacity: .95 }
+  .hb-count { display: flex; gap: 12px; flex-wrap: wrap }
+  .hb-count div { background: #fff; color: #1d2420; border: 3px solid #1d2420; border-radius: 16px; box-shadow: 4px 4px 0 #1d2420; padding: 10px 14px; min-width: 88px; text-align: center }
+  .hb-count div:nth-child(odd) { transform: rotate(-2deg) } .hb-count div:nth-child(even) { transform: rotate(2deg) }
+  .hb-count b { display: block; font: 800 clamp(2.2rem, 6vw, 3.2rem)/1 var(--display); font-variant-numeric: tabular-nums }
+  .hb-count span { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em }
+  .hb-hoeren { display: flex; flex-wrap: wrap; gap: 14px }
+  .hb .btn.big { font-size: 1.25rem; padding: 16px 28px; background: var(--sun); color: #1d2420; animation: wackel 3s ease-in-out infinite }
+  .hb-mini .btn { background: #fff; color: #1d2420; font-size: .95rem; padding: 10px 16px }
+  .hb-vor-links { font-size: .95rem; opacity: .9 }
+  .hb-vor-links :global(a) { color: #fff; font-weight: 700 }
+  .konfetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2 }
+  @keyframes schweben { 50% { transform: rotate(1deg) translateY(-8px) } }
+  @media (max-width: 820px) { .hb-grid { grid-template-columns: 1fr } .hb-cover { max-width: 320px; margin-inline: auto } .hb { min-height: 0 } }
+  @media (prefers-reduced-motion: reduce) { .hb-cover img, .hb .btn.big { animation: none } }
+</style>

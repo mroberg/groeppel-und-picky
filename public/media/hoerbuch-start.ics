@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//groeppel-und-picky.de//Hoerbuch//DE
+BEGIN:VEVENT
+UID:hoerbuch-band1@groeppel-und-picky.de
+DTSTAMP:20261102T100000Z
+DTSTART;VALUE=DATE:20261115
+DTEND;VALUE=DATE:20261116
+SUMMARY:Gröppel und Picky: Das Hörbuch ist da!
+DESCRIPTION:Ab heute auf Spotify und Audible: https://groeppel-und-picky.de/hoerbuch/
+URL:https://groeppel-und-picky.de/hoerbuch/
+BEGIN:VALARM
+TRIGGER:PT9H
+ACTION:DISPLAY
+DESCRIPTION:Gröppel und Picky: Das Hörbuch ist da!
+END:VALARM
+END:VEVENT
+END:VCALENDAR

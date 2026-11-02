@@ -8,6 +8,10 @@ RewriteEngine On
 # https und www/ohne www regelt Plesk (Hosting-Einstellungen), nicht diese Datei.
 
 # Alte WordPress-Adressen auf die neuen Seiten
+# Kurz-Adressen zum Teilen
+RewriteRule ^piraten/?$ /abenteuer/die-piraten/ [R=302,L]
+RewriteRule ^band1/?$ /abenteuer/bei-den-indianern/ [R=302,L]
+RewriteRule ^leseprobe/?$ /abenteuer/bei-den-indianern/#leseprobe [R=302,NE,L]
 RewriteRule ^geheimnisse/?$ /figuren/ [R=301,L]
 RewriteRule ^autor/?$ /ueber-uns/ [R=301,L]
 RewriteRule ^ausmalbilder/?$ /mitmachen/ [R=301,L]

@@ -1,8 +1,9 @@
 ---
+import { hoerbuchStart } from '../data/site';
 interface Props { note?: string; style?: string }
 const { note = '· eingesprochen von Matthias Roberg', style } = Astro.props;
 ---
-<div class="player" data-player style={style}>
+<div class="player" data-player data-start={hoerbuchStart} style={style}>
   <button class="play" type="button" aria-label="Hörprobe abspielen"><svg viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg></button>
   <div class="track"><b>Hörprobe</b> <small data-time>{note}</small><div class="bar"><i></i></div></div>
   <audio preload="none" src="/media/hoerprobe-band1.mp3"></audio>
@@ -10,6 +11,9 @@ const { note = '· eingesprochen von Matthias Roberg', style } = Astro.props;
 <script>
   const play = '<path d="M7 4v16l13-8z"/>', pause = '<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>';
   document.querySelectorAll<HTMLElement>('[data-player]').forEach(p => {
+    // Nach dem Hörbuchstart: Hinweis „ab 15.11.“ ersetzen
+    const t = p.querySelector('small[data-time]');
+    if (t && /ab 15\.11/.test(t.textContent || '') && Date.now() >= new Date(p.dataset.start!).getTime()) t.textContent = '· das ganze Hörbuch gibt es auf Spotify und Audible';
     const a = p.querySelector('audio')!, btn = p.querySelector('.play')!, bar = p.querySelector<HTMLElement>('.bar')!, fill = bar.querySelector<HTMLElement>('i')!;
     btn.addEventListener('click', () => {
       document.querySelectorAll('audio').forEach(o => o !== a && o.pause());
