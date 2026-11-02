@@ -1,0 +1,121 @@
+---
+// Interaktiver RaZeTu: Gute Taten laden die Energie, bei voller Energie ist ein Zeitsprung möglich.
+---
+<div class="razetu-box sketch">
+  <div class="rz-stage">
+    <svg class="rz" viewBox="0 0 220 300" role="img" aria-labelledby="rz-title">
+      <title id="rz-title">Der RaZeTu</title>
+      <g class="rz-swirl" aria-hidden="true">
+        <circle cx="110" cy="150" r="130" fill="none" stroke="var(--picky)" stroke-width="4" stroke-dasharray="14 12" />
+        <circle cx="110" cy="150" r="100" fill="none" stroke="var(--picky)" stroke-width="3" stroke-dasharray="8 14" />
+      </g>
+      <g class="rz-device">
+        <path d="M44 22c40-6 92-6 132 0 10 2 16 8 16 18 2 76 2 150 0 222 0 10-6 16-16 17-42 5-90 5-132 0-10-1-16-7-16-17-2-72-2-146 0-222 0-10 6-16 16-18z" fill="#6f7478" stroke="#1d2420" stroke-width="5" stroke-linejoin="round" />
+        <rect x="18" y="80" width="12" height="24" rx="3" fill="#3c4144" stroke="#1d2420" stroke-width="3" />
+        <rect x="190" y="80" width="12" height="24" rx="3" fill="#3c4144" stroke="#1d2420" stroke-width="3" />
+        <circle class="led led-r" cx="72" cy="62" r="14" stroke="#1d2420" stroke-width="4" />
+        <circle class="led led-y" cx="110" cy="62" r="14" stroke="#1d2420" stroke-width="4" />
+        <circle class="led led-g" cx="148" cy="62" r="14" stroke="#1d2420" stroke-width="4" />
+        <rect x="44" y="96" width="132" height="26" rx="6" fill="#2a3a48" stroke="#1d2420" stroke-width="4" />
+        <rect class="rz-bar" x="48" y="100" width="0" height="18" rx="4" fill="#5fc4ff" />
+        <rect x="44" y="140" width="132" height="110" rx="10" fill="#eef7f2" stroke="#1d2420" stroke-width="4" />
+        <text class="rz-text" x="110" y="200" text-anchor="middle">RaZeTu</text>
+        <g class="rz-touch" hidden>
+          <circle cx="110" cy="195" r="30" fill="#e2312b" stroke="#1d2420" stroke-width="4" />
+          <text x="110" y="201" text-anchor="middle" class="rz-touch-label">Los!</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <div class="stack" style="gap:16px">
+    <span class="eyebrow">Probier es aus</span>
+    <h2>Der RaZeTu</h2>
+    <p>Der Raum-Zeit-Tunnel von Professor Einfred sieht fast aus wie ein Handy. Springen kann er nur mit voller Energie, und die bekommt er, wenn jemand etwas Gutes tut.</p>
+    <p class="rz-msg" aria-live="polite">Energie: 0 %. Tu etwas Gutes!</p>
+    <div class="btns">
+      <button class="btn" type="button" id="rz-deed">Gute Tat vollbringen</button>
+      <button class="btn blue" type="button" id="rz-jump" hidden>Zeitsprung starten</button>
+    </div>
+    <ul class="rz-legend">
+      <li><span class="dot" style="background:#e2312b"></span>Rot: alles normal</li>
+      <li><span class="dot" style="background:#f7d33f"></span>Gelb: gerade passiert etwas Gutes</li>
+      <li><span class="dot" style="background:#3bbf5c"></span>Grün: genug gute Energie gesammelt</li>
+    </ul>
+  </div>
+</div>
+
+<style>
+  .razetu-box { display: grid; grid-template-columns: minmax(0, 300px) 1fr; gap: 40px; align-items: center; padding: 28px; background: var(--paper-2) }
+  .rz-stage { display: grid; place-items: center }
+  .rz { width: 100%; max-width: 260px; overflow: visible }
+  .rz-device { transform-origin: 110px 150px; transform: rotate(-6deg); transition: transform .4s }
+  .rz-swirl { opacity: 0; transform-origin: 110px 150px }
+  .led { fill: #55595c; transition: fill .2s }
+  .led-r { fill: #e2312b }
+  .rz[data-busy] .led-y { fill: #f7d33f; animation: blink .25s steps(2) 4 }
+  .rz[data-full] .led-g { fill: #3bbf5c }
+  .rz-bar { transition: width .6s cubic-bezier(.34,1.56,.64,1) }
+  .rz-text { font: 700 22px var(--display); fill: #1d2420 }
+  .rz-touch { cursor: pointer }
+  .rz-touch-label { font: 700 16px var(--display); fill: #fff; pointer-events: none }
+  .rz[data-full] .rz-touch circle { animation: pulse 1s ease-in-out infinite; transform-origin: 110px 195px }
+  .rz[data-jump] .rz-swirl { opacity: 1; animation: spin 1.2s linear infinite }
+  .rz[data-jump] .rz-device { animation: wobble .3s ease-in-out infinite alternate }
+  .rz-legend { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; font-size: .95rem; color: var(--ink-soft) }
+  .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 2px solid #1d2420; margin-right: 8px; vertical-align: -1px }
+  .rz-msg { font-weight: 700; min-height: 3.2em }
+  @keyframes blink { 50% { fill: #55595c } }
+  @keyframes pulse { 50% { transform: scale(1.12) } }
+  @keyframes spin { to { transform: rotate(360deg) } }
+  @keyframes wobble { from { transform: rotate(-10deg) scale(1) } to { transform: rotate(8deg) scale(.92) } }
+  @media (max-width: 820px) { .razetu-box { grid-template-columns: 1fr } .rz { max-width: 200px } }
+</style>
+
+<script>
+  const svg = document.querySelector<SVGSVGElement>('.rz')!;
+  const bar = svg.querySelector<SVGRectElement>('.rz-bar')!;
+  const text = svg.querySelector<SVGTextElement>('.rz-text')!;
+  const touch = svg.querySelector<SVGGElement>('.rz-touch')!;
+  const msg = document.querySelector('.rz-msg')!;
+  const deed = document.getElementById('rz-deed') as HTMLButtonElement;
+  const jump = document.getElementById('rz-jump') as HTMLButtonElement;
+  const taten = [
+    'Gröppel hilft einer alten Dame über die Straße.',
+    'Picky teilt sein Pausenbrot.',
+    'Die beiden sammeln Müll am Flussufer auf.',
+    'Gröppel tröstet ein weinendes Küken.',
+    'Picky hilft dem Professor beim Aufräumen.',
+    'Die beiden schlichten einen Streit.',
+  ];
+  let busyTimer: ReturnType<typeof setTimeout> | undefined;
+  let energie = 0, i = Math.floor(Math.random() * taten.length);
+
+  function render() {
+    bar.setAttribute('width', String(124 * energie / 100));
+    const voll = energie >= 100;
+    svg.toggleAttribute('data-full', voll);
+    touch.toggleAttribute('hidden', !voll); text.style.display = voll ? 'none' : '';
+    deed.hidden = voll; jump.hidden = !voll;
+  }
+  deed.addEventListener('click', () => {
+    energie = Math.min(100, energie + 25);
+    svg.removeAttribute('data-busy'); void svg.getBoundingClientRect(); svg.setAttribute('data-busy', '');
+    clearTimeout(busyTimer); busyTimer = setTimeout(() => svg.removeAttribute('data-busy'), 1200);
+    msg.textContent = taten[i++ % taten.length] + ` Energie: ${energie} %.`;
+    if (energie >= 100) msg.textContent += ' Der rote Knopf leuchtet!';
+    render();
+  });
+  function springen() {
+    if (energie < 100 || svg.hasAttribute('data-jump')) return;
+    touch.setAttribute('hidden', ''); text.style.display = ''; text.textContent = 'Aktiviert';
+    svg.setAttribute('data-jump', ''); jump.hidden = true;
+    msg.textContent = 'Wuuusch! Ab durch die Zeit …';
+    setTimeout(() => {
+      svg.removeAttribute('data-jump'); energie = 0; text.textContent = 'RaZeTu'; render();
+      msg.textContent = 'Gelandet! Aber wo und wann? Der Professor hat leider noch keine Navigation eingebaut.';
+    }, 2600);
+  }
+  jump.addEventListener('click', springen);
+  touch.addEventListener('click', springen);
+  render();
+</script>

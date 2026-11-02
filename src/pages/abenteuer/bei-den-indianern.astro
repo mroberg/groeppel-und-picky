@@ -73,7 +73,12 @@ const bewertungen = [
         <div class="stack" style="gap:12px">
           <span class="eyebrow">Stimmt es eigentlich?</span>
           <h3 style="font-size:1.9rem">Quanah gab es wirklich</h3>
-          <p>Um 1853 lebten die Comanche im heutigen Texas. Häuptling Nocona, seine Frau Naduah und ihr Sohn Quanah sind echte Menschen aus dieser Zeit. Gröppel und Picky treffen also auf ein Stück echte Geschichte.</p>
+          <p>Das Abenteuer spielt im Jahr 1853 in den Guadalupe Mountains in Texas. Dort lebten damals die Comanche, und die Familie, die Gröppel und Picky kennenlernen, gab es wirklich.</p>
+          <ul class="names">
+            <li><b>Nocona</b> heißt „Der Wanderer“. Er war Häuptling der Comanche. Die Cowboys nannten ihn Peta Nocona.</li>
+            <li><b>Naduah</b> heißt „Die sich bei uns wohlfühlt“. Sie war Noconas Frau und hieß eigentlich Cynthia Ann Parker.</li>
+            <li><b>Quanah</b> heißt „Duft“. Er war ihr Sohn, im Buch etwa 9 Jahre alt, und hilft Gröppel und Picky. Die Cowboys nannten ihn Quanah Parker.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -81,5 +86,6 @@ const bewertungen = [
 </Base>
 <style>
   .buy { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+  .names { margin: 0; padding-left: 1.2em; display: grid; gap: 8px }
   @media (max-width: 980px) { .buy { grid-template-columns: 1fr } }
 </style>
