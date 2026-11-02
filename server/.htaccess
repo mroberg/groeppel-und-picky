@@ -1,5 +1,5 @@
-# Nur der öffentliche Endpunkt ist erreichbar
+# Nur Anmelde-Endpunkt und Konsole sind erreichbar
 Require all denied
-<Files "erinnerung.php">
+<FilesMatch "^(erinnerung|konsole)\.php$">
   Require all granted
-</Files>
+</FilesMatch>

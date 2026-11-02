@@ -1,6 +1,6 @@
 # Einrichtung in Plesk
 
-Beispiel für die Test-Subdomain `neu.groeppel-und-picky.de`. Für den Livegang später dieselben Schritte mit der Hauptdomain.
+Beispiel für die Test-Subdomain `groeppel-und-picky.de`. Für den Livegang später dieselben Schritte mit der Hauptdomain.
 
 ## 1. Voraussetzungen im Abonnement
 
@@ -13,15 +13,15 @@ Beispiel für die Test-Subdomain `neu.groeppel-und-picky.de`. Für den Livegang 
 
 ## 2. Subdomain
 
-- Subdomain `neu.groeppel-und-picky.de` anlegen.
-- Dokumentenstamm: `neu.groeppel-und-picky.de/public`
+- Subdomain `groeppel-und-picky.de` anlegen.
+- Dokumentenstamm: `groeppel-und-picky.de/public`
 
 ## 3. Git verknüpfen
 
 1. In der Subdomain auf **Git** gehen und **Remote-Repository** wählen.
 2. Repository-URL: `git@github.com:mroberg/groeppel-und-picky.git`
 3. Plesk zeigt einen **öffentlichen SSH-Schlüssel**. Diesen in GitHub unter *Settings → Deploy keys* eintragen (nur Lesezugriff).
-4. Bereitstellungsmodus: **Automatisch**, Bereitstellungspfad: `neu.groeppel-und-picky.de/src`
+4. Bereitstellungsmodus: **Automatisch**, Bereitstellungspfad: `groeppel-und-picky.de/src`
 5. **Zusätzliche Bereitstellungsaktionen** aktivieren:
 
    ```
@@ -36,10 +36,28 @@ Beispiel für die Test-Subdomain `neu.groeppel-und-picky.de`. Für den Livegang 
 
 1. In Plesk eine **MariaDB-Datenbank** mit eigenem Benutzer anlegen.
 2. `server/schema.sql` über phpMyAdmin einspielen.
-3. `server/config.sample.php` als `config.php` nach `neu.groeppel-und-picky.de/config.php` kopieren, also eine Ebene **über** `public`. Dort Datenbank- und SMTP-Zugangsdaten eintragen.
+3. `server/config.sample.php` als `config.php` nach `groeppel-und-picky.de/config.php` kopieren, also eine Ebene **über** `public`. Dort Datenbank- und SMTP-Zugangsdaten eintragen.
 4. Test: Auf der Seite eintragen und prüfen, ob die Bestätigungsmail ankommt.
 
-Wenn Band 2 erscheint, per SSH in `neu.groeppel-und-picky.de/public/api`:
+### Konsole
+
+Unter https://groeppel-und-picky.de/api/konsole.php gibt es eine kleine, nicht indexierte Konsole: Empfänger ansehen und löschen, Testmail schicken und die Ankündigung an alle senden (mit Eingabe von `SENDEN` als Sicherung).
+
+Zugang einrichten: In der Plesk-SSH-Konsole oder lokal einen Passwort-Hash erzeugen
+
+```
+php -r 'echo password_hash("DeinPasswort", PASSWORD_DEFAULT), PHP_EOL;'
+```
+
+und in `config.php` eintragen:
+
+```
+'admin' => ['user' => 'matthias', 'passHash' => '$2y$10$…'],
+```
+
+Nach 5 Fehlversuchen ist die Anmeldung 15 Minuten gesperrt, nach 30 Minuten ohne Aktivität wird man abgemeldet.
+
+Alternativ per SSH in `groeppel-und-picky.de/public/api`:
 
 ```
 php versand.php --test=deine@adresse.de

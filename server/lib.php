@@ -61,6 +61,22 @@ function sendMail(string $to, string $subject, string $text, ?string $html = nul
     $m->send();
 }
 
+// Die einmalige Mail zum Erscheinen von Band 2: [Betreff, Text, HTML]
+function ankuendigungsMail(): array {
+    $base = config()['baseUrl'];
+    $text = "Hallo!\n\nEs ist so weit: \"Gröppel und Picky und die Piraten\" ist erschienen!\n\n" .
+            "Alle Infos und Links zum Buch: $base/abenteuer/die-piraten/\n\n" .
+            "Wie versprochen ist das unsere einzige E-Mail an dich. Deine Adresse haben wir jetzt gelöscht.\n\n" .
+            "Viele Grüße\nGröppel und Picky";
+    $subject = 'Die Piraten sind da! Gröppel und Picky Band 2 ist erschienen';
+    $html = mailHtml('Ahoi, die Piraten sind da!',
+        '<p>Hallo!</p><p>Es ist so weit: <b>Gröppel und Picky und die Piraten</b> ist erschienen!</p>' .
+        '<p><a class="btn" href="' . $base . '/abenteuer/die-piraten/">Zum neuen Abenteuer</a></p>' .
+        '<p>Wie versprochen ist das unsere einzige E-Mail an dich. Deine Adresse haben wir jetzt gelöscht.</p>' .
+        '<p>Viele Grüße<br>Gröppel und Picky</p>', 'mail-groeppel.png');
+    return [$subject, $text, $html];
+}
+
 function json(array $data, int $code = 200): never {
     http_response_code($code);
     header('Content-Type: application/json; charset=utf-8');
