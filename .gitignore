@@ -4,3 +4,4 @@ dist/
 public/api/vendor/
 public/api/config.php
 .DS_Store
+server/vendor/
