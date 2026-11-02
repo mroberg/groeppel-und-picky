@@ -36,16 +36,29 @@ const steckbriefe = [
     <div class="wrap stack" style="gap:56px">
       <FigurCards />
 
-      <div class="stack" style="gap:24px">
+      <div class="stack sb" style="gap:24px">
         <h2>Die Steckbriefe</h2>
-        <div class="steckbriefe">
-          {steckbriefe.map(s => (
-            <article class="steckbrief sketch">
-              <header><img src={s.bild} alt="" loading="lazy" /><h3 style={`color:${s.farbe}`}>{s.name}</h3></header>
-              <dl>{s.fakten.map(([k, v]) => <><dt>{k}</dt><dd>{v}</dd></>)}</dl>
-            </article>
+        <div class="sb-tabs" role="tablist" aria-label="Steckbrief auswählen">
+          {steckbriefe.map((s, i) => (
+            <button type="button" role="tab" id={`sb-tab-${i}`} aria-controls={`sb-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} style={`--farbe:${s.farbe}`}>
+              <img src={s.bild} alt="" width="56" height="56" loading="lazy" /><span>{s.name}</span>
+            </button>
           ))}
         </div>
+        {steckbriefe.map((s, i) => (
+          <article class="steckbrief sketch" role="tabpanel" id={`sb-${i}`} aria-labelledby={`sb-tab-${i}`} data-i={i} style={`--farbe:${s.farbe}`}>
+            <div class="sb-bild"><img src={s.bild} alt="" loading="lazy" /><span class="sb-stempel">Streng geheim</span></div>
+            <div class="sb-inhalt">
+              <h3>{s.name}</h3>
+              <dl>{s.fakten.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+              <div class="sb-nav">
+                <button type="button" class="btn alt sb-prev" aria-label="Vorheriger Steckbrief">←</button>
+                <span class="sb-zahl">{i + 1} von {steckbriefe.length}</span>
+                <button type="button" class="btn sb-next" aria-label="Nächster Steckbrief">→</button>
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
 
       <Razetu />
@@ -53,12 +66,56 @@ const steckbriefe = [
   </section>
 </Base>
 <style>
-  .steckbriefe { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: start }
-  .steckbrief { background: #fff; padding: 20px; display: grid; gap: 14px }
-  .steckbrief header { display: flex; align-items: center; gap: 14px }
-  .steckbrief header img { width: 64px; height: 64px; object-fit: contain }
-  .steckbrief dl { margin: 0; display: grid; gap: 10px }
+  .sb-tabs { display: flex; flex-wrap: wrap; gap: 12px }
+  .sb-tabs button { display: inline-flex; align-items: center; gap: 10px; padding: 6px 18px 6px 8px; background: #fff; color: var(--ink); font: 700 1.1rem/1 var(--display); border: 3px solid var(--line); border-radius: 999px; cursor: pointer; transition: transform .2s, box-shadow .2s }
+  .sb-tabs button img { width: 44px; height: 44px; object-fit: contain }
+  .sb-tabs button:hover { transform: rotate(-2deg) translateY(-2px) }
+  .sb-tabs button[aria-selected="true"] { background: var(--farbe); color: #fff; box-shadow: 4px 4px 0 var(--line); transform: rotate(-2deg) }
+  .sb-tabs button[aria-selected="true"] img { background: #fff; border-radius: 50% }
+  .steckbrief { background: #fff; padding: clamp(20px, 4vw, 36px); display: grid; grid-template-columns: minmax(0, 260px) 1fr; gap: clamp(20px, 4vw, 44px); align-items: start }
+  .steckbrief.zeigen { animation: blatt .45s cubic-bezier(.34,1.56,.64,1) }
+  .sb-bild { position: relative; display: grid; place-items: center; background: color-mix(in srgb, var(--farbe) 12%, #fff); border: 3px solid var(--line); border-radius: 12px; padding: 16px; transform: rotate(-2deg) }
+  .sb-bild img { width: 100%; max-width: 220px; aspect-ratio: 1; object-fit: contain }
+  .sb-stempel { position: absolute; right: -10px; bottom: 14px; font: 800 .95rem/1 var(--display); color: #c8322b; border: 3px solid #c8322b; border-radius: 6px; padding: 6px 10px; transform: rotate(-12deg); background: #fffcf3cc; text-transform: uppercase; letter-spacing: .04em }
+  .sb-inhalt { display: grid; gap: 18px }
+  .sb-inhalt h3 { font-size: clamp(1.8rem, 4vw, 2.4rem); color: var(--farbe) }
+  .steckbrief dl { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 28px }
   .steckbrief dt { font: 700 .8rem/1 var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft) }
-  .steckbrief dd { margin: 2px 0 0 }
-  @media (max-width: 980px) { .steckbriefe { grid-template-columns: 1fr } }
+  .steckbrief dd { margin: 4px 0 0 }
+  .sb-nav { display: flex; align-items: center; gap: 14px; margin-top: 4px }
+  .sb-nav .btn { padding: 10px 18px; font-size: 1.3rem }
+  .sb-zahl { font-weight: 700; color: var(--ink-soft) }
+  .sb:not(.js) .sb-nav, .sb:not(.js) .sb-tabs { display: none }
+  .sb:not(.js) .steckbrief + .steckbrief { margin-top: 0 }
+  @keyframes blatt { from { opacity: 0; transform: rotate(3deg) translateX(30px) } to { opacity: 1; transform: none } }
+  @media (max-width: 760px) { .steckbrief { grid-template-columns: 1fr } .sb-bild img { max-width: 160px } .steckbrief dl { grid-template-columns: 1fr } }
+  @media (prefers-reduced-motion: reduce) { .steckbrief.zeigen { animation: none } }
 </style>
+
+<script>
+  const sb = document.querySelector<HTMLElement>('.sb')!;
+  const tabs = [...sb.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+  const panels = [...sb.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+  sb.classList.add('js');
+  function zeige(n: number, fokus = false) {
+    n = (n + tabs.length) % tabs.length;
+    tabs.forEach((t, i) => { t.setAttribute('aria-selected', String(i === n)); t.tabIndex = i === n ? 0 : -1; });
+    panels.forEach((p, i) => { p.hidden = i !== n; p.classList.toggle('zeigen', i === n); });
+    if (fokus) tabs[n].focus();
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => zeige(i));
+    t.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); zeige(i + 1, true); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); zeige(i - 1, true); }
+    });
+  });
+  panels.forEach((p, i) => {
+    p.querySelector('.sb-prev')!.addEventListener('click', () => zeige(i - 1));
+    p.querySelector('.sb-next')!.addEventListener('click', () => zeige(i + 1));
+    let x0 = 0;
+    p.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+    p.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 60) zeige(i + (dx < 0 ? 1 : -1)); });
+  });
+  zeige(0);
+</script>

@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { ausmalbilder } from '../data/site';
+import Razetu from '../components/Razetu.astro';
 ---
 <Base title="Kostenlose Ausmalbilder zum Ausdrucken" image="/img/og/mitmachen.jpg" description="Kostenlose Ausmalbilder von Gröppel und Picky als PDF zum Ausdrucken: Piraten, Elefanten, Skateboard und Schlange. Für Kinder ab 4.">
   <div class="page-head"><div class="wrap stack" style="gap:8px"><span class="eyebrow">Mitmachen</span><h1>Schnapp dir deine Buntstifte</h1><p>Lade dir ein Bild herunter, druck es aus und mal Gröppel und Picky so, wie du willst.</p></div></div>
@@ -15,6 +16,9 @@ import { ausmalbilder } from '../data/site';
         </a>
       ))}
     </div>
+  </section>
+  <section class="band" style="padding-top:0">
+    <div class="wrap"><Razetu /></div>
   </section>
 </Base>
 <style>

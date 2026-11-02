@@ -1,7 +1,7 @@
 ---
 // Interaktiver RaZeTu: Gute Taten laden die Energie, bei voller Energie ist ein Zeitsprung möglich.
 ---
-<div class="razetu-box sketch">
+<div class="razetu-box sketch" id="razetu">
   <div class="rz-stage">
     <svg class="rz" viewBox="0 0 220 300" role="img" aria-labelledby="rz-title">
       <title id="rz-title">Der RaZeTu</title>
@@ -45,7 +45,7 @@
 </div>
 
 <style>
-  .razetu-box { display: grid; grid-template-columns: minmax(0, 300px) 1fr; gap: 40px; align-items: center; padding: 28px; background: var(--paper-2) }
+  .razetu-box { scroll-margin-top: 96px; display: grid; grid-template-columns: minmax(0, 300px) 1fr; gap: 40px; align-items: center; padding: 28px; background: var(--paper-2) }
   .rz-stage { display: grid; place-items: center }
   .rz { width: 100%; max-width: 260px; overflow: visible }
   .rz-device { transform-origin: 110px 150px; transform: rotate(-6deg); transition: transform .4s }
