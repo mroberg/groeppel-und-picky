@@ -16,11 +16,11 @@ return [
         'from'     => 'post@groeppel-und-picky.de',
         'fromName' => 'Gröppel und Picky',
     ],
-    // Zugang zur Konsole (/api/konsole.php). Hash erzeugen mit:
-    //   php -r 'echo password_hash("DeinPasswort", PASSWORD_DEFAULT), PHP_EOL;'
+    // Zugang zur Konsole (/api/konsole.php). Entweder das Passwort direkt ('pass')
+    // oder stattdessen einen Hash ('passHash' => '$2y$...') eintragen.
     'admin' => [
-        'user'     => 'matthias',
-        'passHash' => '$2y$10$...',
+        'user' => 'matthias',
+        'pass' => '***',
     ],
     'baseUrl' => 'https://groeppel-und-picky.de',
 ];

@@ -43,17 +43,13 @@ Beispiel für die Test-Subdomain `groeppel-und-picky.de`. Für den Livegang spä
 
 Unter https://groeppel-und-picky.de/api/konsole.php gibt es eine kleine, nicht indexierte Konsole: Empfänger ansehen und löschen, Testmail schicken und die Ankündigung an alle senden (mit Eingabe von `SENDEN` als Sicherung).
 
-Zugang einrichten: In der Plesk-SSH-Konsole oder lokal einen Passwort-Hash erzeugen
+Zugang einrichten: in `config.php` eintragen
 
 ```
-php -r 'echo password_hash("DeinPasswort", PASSWORD_DEFAULT), PHP_EOL;'
+'admin' => ['user' => 'matthias', 'pass' => 'DeinPasswort'],
 ```
 
-und in `config.php` eintragen:
-
-```
-'admin' => ['user' => 'matthias', 'passHash' => '$2y$10$…'],
-```
+(Alternativ statt `pass` einen Hash als `passHash`.)
 
 Nach 5 Fehlversuchen ist die Anmeldung 15 Minuten gesperrt, nach 30 Minuten ohne Aktivität wird man abgemeldet.
 

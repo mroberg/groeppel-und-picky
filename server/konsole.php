@@ -22,9 +22,14 @@ db()->exec('CREATE TABLE IF NOT EXISTS konsole_login (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
 
 $admin = config()['admin'] ?? null;
-if (!$admin || empty($admin['user']) || empty($admin['passHash'])) {
+if (!$admin || empty($admin['user']) || (empty($admin['passHash']) && empty($admin['pass']))) {
     http_response_code(503);
-    exit('Konsole ist nicht eingerichtet: Bitte admin.user und admin.passHash in config.php eintragen.');
+    exit('Konsole ist nicht eingerichtet: Bitte admin.user und admin.pass (oder admin.passHash) in config.php eintragen.');
+}
+
+function passwortOk(array $admin, string $eingabe): bool {
+    if (!empty($admin['passHash'])) return password_verify($eingabe, (string)$admin['passHash']);
+    return hash_equals((string)$admin['pass'], $eingabe);
 }
 
 $ipHash = hash('sha256', ($_SERVER['REMOTE_ADDR'] ?? '') . 'konsole');
@@ -51,7 +56,7 @@ if ($aktion === 'login' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $st->execute([$ipHash]);
     if ((int)$st->fetchColumn() >= MAX_FEHLVERSUCHE) {
         $fehler = 'Zu viele Fehlversuche. Bitte in 15 Minuten erneut versuchen.';
-    } elseif (hash_equals($admin['user'], (string)($_POST['user'] ?? '')) && password_verify((string)($_POST['pass'] ?? ''), $admin['passHash'])) {
+    } elseif (hash_equals(strtolower(trim((string)$admin['user'])), strtolower(trim((string)($_POST['user'] ?? '')))) && passwortOk($admin, (string)($_POST['pass'] ?? ''))) {
         session_regenerate_id(true);
         $_SESSION['admin'] = true;
         $_SESSION['zuletzt'] = time();

@@ -24,7 +24,7 @@ Liegt in `server/` und wird beim Deploy nach `/api/` kopiert.
 
 1. Datenbank in Plesk anlegen und `server/schema.sql` einspielen.
 2. `server/config.sample.php` als `config.php` **eine Ebene über dem Webordner** ablegen (neben `httpdocs`) und Datenbank- sowie SMTP-Zugangsdaten eintragen.
-3. Für die Konsole (`/api/konsole.php`) den Block `admin` mit Benutzer und Passwort-Hash in `config.php` ergänzen (siehe `config.sample.php`).
+3. Für die Konsole (`/api/konsole.php`) den Block `admin` mit Benutzer und Passwort in `config.php` ergänzen (siehe `config.sample.php`).
 4. Wenn Band 2 erscheint: in der Konsole Testmail schicken, dann an alle senden. Alternativ per SSH im Ordner `public/api`:
    `php versand.php --test=deine@adresse.de`, danach `php versand.php --los`.
 
