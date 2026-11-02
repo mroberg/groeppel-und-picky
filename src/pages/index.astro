@@ -5,9 +5,9 @@ import LinkButtons from '../components/LinkButtons.astro';
 import FigurCards from '../components/FigurCards.astro';
 import Team from '../components/Team.astro';
 import RemindForm from '../components/RemindForm.astro';
-import { band1, band2, hoerbuchStart } from '../data/site';
+import { band1, band2, hoerbuchStart, ldWebsite, ldSerie } from '../data/site';
 ---
-<Base>
+<Base description="Gröppel und Picky: lustige Zeitreiseabenteuer für Kinder ab 6 Jahren. Kinderbuch, Hörbuch, kostenlose Ausmalbilder und Geheimnisse zum Entdecken." jsonld={[ldWebsite, ldSerie]}>
   <div class="hero">
     <div class="wrap">
       <div class="stack" style="gap:22px">

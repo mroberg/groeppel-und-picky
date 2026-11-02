@@ -2,7 +2,20 @@
 import Base from '../../layouts/Base.astro';
 import Player from '../../components/Player.astro';
 import LinkButtons from '../../components/LinkButtons.astro';
-import { band1 } from '../../data/site';
+import { band1, ldAutor, ldIllustrator, ldSerie } from '../../data/site';
+const angebot = (l: { name: string; url: string }) => ({ '@type': 'Offer', url: l.url, seller: { '@type': 'Organization', name: l.name }, availability: 'https://schema.org/InStock' });
+const ldBuch = {
+  '@type': 'Book', '@id': 'https://groeppel-und-picky.de/abenteuer/bei-den-indianern/#buch',
+  name: band1.titel, alternateName: band1.untertitel, author: ldAutor, illustrator: ldIllustrator,
+  isPartOf: ldSerie, position: 1, inLanguage: 'de', genre: 'Kinderbuch', typicalAgeRange: '4-10',
+  image: 'https://groeppel-und-picky.de/img/buch-band1.webp',
+  description: 'Das kleine Krokodil Gröppel und sein bester Freund Picky, ein Krokodilwächter-Vogel, reisen mit der Zeitmaschine RaZeTu ins Amerika des Jahres 1853 und erleben ein Abenteuer bei den Indianern.',
+  workExample: [
+    { '@type': 'Book', bookFormat: 'https://schema.org/Paperback', isbn: '9783752627657', datePublished: '2020-11-30', publisher: { '@type': 'Organization', name: 'BoD – Books on Demand' }, offers: band1.buch.map(angebot) },
+    { '@type': 'Book', bookFormat: 'https://schema.org/EBook', isbn: '9783752638059', offers: band1.ebook.map(angebot) },
+    { '@type': 'Audiobook', bookFormat: 'https://schema.org/AudiobookFormat', datePublished: '2026-11-15', offers: band1.hoerbuch.map(angebot) },
+  ],
+};
 
 const szenen = [
   ['szene-01', 'Zuhause in Afrika'], ['szene-02', 'Aufwachen!'], ['szene-06', 'Der RaZeTu'],
@@ -16,7 +29,7 @@ const bewertungen = [
   { name: 'Miriam', text: 'Mein Sohn (7) liebt das Buch, und die Bilder sind wunderbar.' },
 ];
 ---
-<Base title={band1.titel} description="Band 1: Gröppel und Picky reisen ins Amerika des Jahres 1853. Als Buch und ab 15.11.2026 als Hörbuch." image="/img/buch-band1.webp">
+<Base title={`${band1.titel} · Kinderbuch und Hörbuch ab 6`} description="Band 1: Gröppel und Picky reisen mit der Zeitmaschine ins Amerika des Jahres 1853. Als Buch, E-Book und ab 15.11.2026 als Hörbuch bei Spotify und Audible." image="/img/og/band1.jpg" ogType="book" jsonld={ldBuch}>
   <div class="book-hero">
     <div class="wrap">
       <img class="cover" src="/img/buch-band1.webp" alt={`Buchcover ${band1.titel}`} width="340" height="539">

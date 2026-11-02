@@ -48,3 +48,13 @@ export const kontakt = {
   telefon: '+49 173 2319305',
   email: 'kontakt@groeppel-und-picky.de',
 };
+
+// Strukturierte Daten (schema.org) für Suchmaschinen
+const SITE = 'https://groeppel-und-picky.de';
+export const ldAutor = { '@type': 'Person', '@id': `${SITE}/ueber-uns/#matthias`, name: 'Matthias Roberg', url: `${SITE}/ueber-uns/` };
+export const ldIllustrator = { '@type': 'Person', '@id': `${SITE}/ueber-uns/#ludwig`, name: 'Ludwig Tredup', url: `${SITE}/ueber-uns/` };
+export const ldSerie = { '@type': 'BookSeries', '@id': `${SITE}/abenteuer/#serie`, name: 'Gröppel und Picky', url: `${SITE}/abenteuer/`, author: ldAutor };
+export const ldWebsite = {
+  '@type': 'WebSite', '@id': `${SITE}/#website`, name: 'Gröppel und Picky', url: `${SITE}/`, inLanguage: 'de',
+  publisher: { ...ldAutor, sameAs: [social.facebook, social.instagram] },
+};

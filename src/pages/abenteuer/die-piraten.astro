@@ -1,7 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
 import RemindForm from '../../components/RemindForm.astro';
-import { band2 } from '../../data/site';
+import { band2, ldAutor, ldIllustrator, ldSerie } from '../../data/site';
+const ldBuch = { '@type': 'Book', name: band2.titel, author: ldAutor, illustrator: ldIllustrator, isPartOf: ldSerie, position: 2, inLanguage: 'de', genre: 'Kinderbuch', typicalAgeRange: '4-10', image: 'https://groeppel-und-picky.de/img/og/piraten.jpg' };
 
 const leseprobe = [
   "Ein leichter Wind strich über das Meer und trug den salzigen Geschmack des Wassers mit sich. Der Himmel war fast strahlend blau und nur von wenigen Wolken durchzogen. Man konnte mehrere schwarzköpfige Möwen erkennen. Es machte den Eindruck, als würden sie den Wolken elegant ausweichen und kreischend ihre Flugbahn ankündigen. Die Sonne schien auf eine wunderschöne, malerische Bucht mit einem feinen Sandstrand, der sich am Rande einer Felsformation einige hundert Meter lang erstreckte. Das kristallklare Meer war türkisblau gefärbt und lud zum Baden ein.",
@@ -11,7 +12,7 @@ const leseprobe = [
   "„Also ganz sicher bin ich mir nicht, vielleicht sollten wir uns erstmal umschauen“, sagte Gröppel und ließ seinen Blick über das Meer streifen."
 ];
 ---
-<Base title={band2.titel} description={`Band 2 erscheint im ${band2.erscheint}. Schau dir den Teaser an und lass dich erinnern.`} image="/img/schiff.webp">
+<Base title={`${band2.titel} · Band 2 erscheint im ${band2.erscheint}`} description={`Band 2 der Kinderbuchreihe: Gröppel und Picky landen 1699 bei den Piraten in Nassau. Erscheint im ${band2.erscheint}. Teaser, Leseprobe und Erinnerung per Mail.`} image="/img/og/piraten.jpg" jsonld={ldBuch}>
   <section class="pirates band">
     <div class="wrap">
       <div class="stack" style="gap:18px">
