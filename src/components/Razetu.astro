@@ -27,26 +27,29 @@
       </g>
     </svg>
   </div>
-  <div class="stack" style="gap:16px">
+  <div class="stack rz-head" style="gap:16px">
     <span class="eyebrow">Probier es aus</span>
     <h2>Der RaZeTu</h2>
     <p>Der Raum-Zeit-Tunnel von Professor Einfred sieht fast aus wie ein Handy. Springen kann er nur mit voller Energie, und die bekommt er, wenn jemand etwas Gutes tut.</p>
+  </div>
+  <div class="stack rz-ctrl" style="gap:14px">
     <p class="rz-msg" aria-live="polite">Energie: 0 %. Tu etwas Gutes!</p>
     <div class="btns">
       <button class="btn" type="button" id="rz-deed">Gute Tat vollbringen</button>
       <button class="btn blue" type="button" id="rz-jump" hidden>Zeitsprung starten</button>
     </div>
-    <ul class="rz-legend">
+  </div>
+  <ul class="rz-legend">
       <li><span class="dot" style="background:#e2312b"></span>Rot: alles normal</li>
       <li><span class="dot" style="background:#f7d33f"></span>Gelb: gerade passiert etwas Gutes</li>
       <li><span class="dot" style="background:#3bbf5c"></span>Grün: genug gute Energie gesammelt</li>
-    </ul>
-  </div>
+  </ul>
 </div>
 
 <style>
-  .razetu-box { scroll-margin-top: 96px; display: grid; grid-template-columns: minmax(0, 300px) 1fr; gap: 40px; align-items: center; padding: 28px; background: var(--paper-2) }
-  .rz-stage { display: grid; place-items: center }
+  .razetu-box { scroll-margin-top: 96px; display: grid; grid-template-columns: minmax(0, 300px) 1fr; grid-template-areas: 'stage head' 'stage ctrl' 'stage legend'; column-gap: 40px; row-gap: 16px; align-content: center; padding: 28px; background: var(--paper-2) }
+  .rz-stage { grid-area: stage; display: grid; place-items: center }
+  .rz-head { grid-area: head } .rz-ctrl { grid-area: ctrl } .rz-legend { grid-area: legend }
   .rz { width: 100%; max-width: 260px; overflow: visible }
   .rz-device { transform-origin: 110px 150px; transform: rotate(-6deg); transition: transform .4s }
   .rz-swirl { opacity: 0; transform-origin: 110px 150px }
@@ -68,7 +71,13 @@
   @keyframes pulse { 50% { transform: scale(1.12) } }
   @keyframes spin { to { transform: rotate(360deg) } }
   @keyframes wobble { from { transform: rotate(-10deg) scale(1) } to { transform: rotate(8deg) scale(.92) } }
-  @media (max-width: 820px) { .razetu-box { grid-template-columns: 1fr } .rz { max-width: 200px } }
+  @media (max-width: 820px) {
+    .razetu-box { grid-template-columns: 120px 1fr; grid-template-areas: 'head head' 'stage ctrl' 'legend legend'; column-gap: 16px; padding: 20px; align-items: center }
+    .rz { max-width: 120px }
+    .rz-msg { min-height: 7.6em; font-size: .95rem; display: flex; align-items: flex-end }
+    .rz-ctrl .btn { padding: 10px 14px; font-size: .95rem }
+    .rz-legend { font-size: .85rem }
+  }
 </style>
 
 <script>
