@@ -15,7 +15,7 @@ export const band1 = {
   alter: 'ab 6 Jahren, zum Vorlesen ab 4',
   buch: [
     { name: 'BoD', url: 'https://www.bod.de/buchshop/groeppel-und-picky-bei-den-indianern-matthias-roberg-9783752627657' },
-    { name: 'Thalia', url: 'https://www.thalia.de/shop/home/artikeldetails/ID150383577.html' },
+    { name: 'Thalia', url: 'https://www.thalia.de/shop/home/artikeldetails/A1059767215' },
     { name: 'Amazon', url: 'https://www.amazon.de/dp/3752627654/' },
   ],
   ebook: [
