@@ -1,7 +1,11 @@
 ---
-interface Props { links: { name: string; url: string }[]; variant?: '' | 'blue' | 'alt' }
+// Shop-Knöpfe. Links mit `jetzt: true` (schon verfügbar) stehen vorn und sind hervorgehoben.
+interface Props { links: { name: string; url: string; jetzt?: boolean }[]; variant?: '' | 'blue' | 'alt' }
 const { links, variant = '' } = Astro.props;
+const sortiert = [...links.filter(l => l.jetzt), ...links.filter(l => !l.jetzt)];
 ---
 <div class="btns">
-  {links.map(l => <a class:list={['btn', variant]} href={l.url} target="_blank" rel="noopener">{l.name}</a>)}
+  {sortiert.map(l => l.jetzt
+    ? <a class="btn jetzt" href={l.url} target="_blank" rel="noopener">Jetzt auf {l.name} hören</a>
+    : <a class:list={['btn', variant]} href={l.url} target="_blank" rel="noopener">{l.name}</a>)}
 </div>
