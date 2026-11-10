@@ -28,6 +28,11 @@ const teilenText = encodeURIComponent('Gröppel und Picky gibt es jetzt als Hör
           <div><b id="hb-s">–</b><span>Sekunden</span></div>
         </div>
 
+        {band1.hoerbuch.some(l => l.jetzt) && (
+          <div class="hb-hoeren" data-vor>
+            {band1.hoerbuch.filter(l => l.jetzt).map(l => <a class="btn big" href={l.url} target="_blank" rel="noopener">Schon jetzt auf {l.name} hören</a>)}
+          </div>
+        )}
         <div class="hb-hoeren" data-nach hidden>
           {band1.hoerbuch.map(l => <a class="btn big" href={l.url} target="_blank" rel="noopener">Auf {l.name} hören</a>)}
         </div>
@@ -39,7 +44,7 @@ const teilenText = encodeURIComponent('Gröppel und Picky gibt es jetzt als Hör
           <a class="btn alt" href={`https://wa.me/?text=${teilenText}`} target="_blank" rel="noopener">Per WhatsApp teilen</a>
           <a class="btn alt" href="/abenteuer/bei-den-indianern/">Lieber als Buch?</a>
         </div>
-        <p class="hb-vor-links" data-vor>Schon vormerken: <LinkInline links={band1.hoerbuch} /></p>
+        <p class="hb-vor-links" data-vor>Ab 15.11. auch hier: <LinkInline links={band1.hoerbuch.filter(l => !l.jetzt)} /></p>
       </div>
     </div>
     <canvas class="konfetti" aria-hidden="true"></canvas>
