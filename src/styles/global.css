@@ -208,7 +208,3 @@ footer nav { display: flex; gap: 18px; flex-wrap: wrap }
 @keyframes wackel { 0%, 82%, 100% { transform: rotate(-2deg) } 86% { transform: rotate(3deg) scale(1.04) } 90% { transform: rotate(-4deg) scale(1.04) } 94% { transform: rotate(2deg) } }
 @keyframes suchen { from { transform: translate(-2px, 1px) rotate(-8deg) } to { transform: translate(2px, -1px) rotate(8deg) } }
 @media (prefers-reduced-motion: reduce) { .rz-teaser svg, .rz-teaser .l1, .rz-teaser .l2, .rz-teaser .l3, .secret-btn, .secret-btn:hover .lupe { animation: none } }
-
-/* Plattform, auf der das Hörbuch schon jetzt läuft */
-.btn.jetzt, .listen .btn.jetzt { background: var(--sun); color: #1d2420; animation: wackel 3.5s ease-in-out infinite }
-@media (prefers-reduced-motion: reduce) { .btn.jetzt { animation: none } }

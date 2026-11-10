@@ -1,6 +1,5 @@
 ---
 import Base from '../../layouts/Base.astro';
-import LinkButtons from '../../components/LinkButtons.astro';
 import { band1, band2 } from '../../data/site';
 ---
 <Base title="Alle Bücher und Abenteuer" description="Alle Zeitreiseabenteuer von Gröppel und Picky: Band 1 bei den Indianern (Buch, E-Book, Hörbuch) und Band 2 bei den Piraten (Frühjahr 2027).">
@@ -9,26 +8,16 @@ import { band1, band2 } from '../../data/site';
     <div class="wrap trips">
       <a class="trip sketch" href="/abenteuer/bei-den-indianern/">
         <img src="/img/buch-band1.webp" alt="" loading="lazy">
-        <div class="stack" style="gap:6px"><span class="eyebrow">Band 1 · Texas, 1853</span><h2>{band1.titel}</h2><p>Als Buch und als Hörbuch, auf Storytel schon jetzt.</p></div>
+        <div class="stack" style="gap:6px"><span class="eyebrow">Band 1 · Texas, 1853</span><h2>{band1.titel}</h2><p>Als Buch und ab 15.11. als Hörbuch.</p></div>
       </a>
       <a class="trip sketch" href="/abenteuer/die-piraten/">
         <img src="/img/schiff.webp" alt="" loading="lazy" style="background:#fff">
         <div class="stack" style="gap:6px"><span class="eyebrow">Band 2 · Bahamas, 1699</span><h2>{band2.titel}</h2><p>Erscheint im {band2.erscheint}.</p></div>
       </a>
     </div>
-    <div class="wrap" style="margin-top:28px">
-      <div class="sketch hb-hinweis">
-        <img src="/img/cover-hoerbuch.webp" alt="" width="88" height="88" loading="lazy">
-        <p><b>Das Hörbuch zu Band 1 ist da!</b> Auf Storytel schon jetzt, ab 15.11. auch auf Spotify und Audible.</p>
-        <LinkButtons links={band1.hoerbuch.filter(l => l.jetzt)} />
-      </div>
-    </div>
   </section>
 </Base>
 <style>
-  .hb-hinweis { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; padding: 20px 24px; background: var(--paper-2) }
-  .hb-hinweis img { border: 3px solid var(--line); border-radius: 10px }
-  .hb-hinweis p { flex: 1 1 260px; margin: 0 }
   .trips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px }
   .trip { display: grid; grid-template-columns: 140px 1fr; gap: 20px; align-items: center; padding: 20px; color: inherit; text-decoration: none; background: var(--paper-2); transition: transform .2s }
   .trip:hover { transform: rotate(-1deg) translateY(-3px) }
