@@ -7,7 +7,7 @@ DTSTAMP:20261102T100000Z
 DTSTART;VALUE=DATE:20261115
 DTEND;VALUE=DATE:20261116
 SUMMARY:Gröppel und Picky: Das Hörbuch ist da!
-DESCRIPTION:Ab heute auf Spotify und Audible: https://groeppel-und-picky.de/hoerbuch/
+DESCRIPTION:Ab heute auf Spotify, Audible und Storytel: https://groeppel-und-picky.de/hoerbuch/
 URL:https://groeppel-und-picky.de/hoerbuch/
 BEGIN:VALARM
 TRIGGER:PT9H

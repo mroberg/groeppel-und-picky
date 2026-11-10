@@ -110,7 +110,7 @@ import { band1, band2, hoerbuchStart, ldWebsite, ldSerie } from '../data/site';
     if (ms <= 0) {
       box.hidden = true;
       document.getElementById('listen-title')!.textContent = 'Jetzt überall zum Hören!';
-      document.querySelectorAll('[data-player] small[data-time]').forEach(t => t.textContent = '· das ganze Hörbuch gibt es auf Spotify und Audible');
+      document.querySelectorAll('[data-player] small[data-time]').forEach(t => t.textContent = '· das ganze Hörbuch gibt es auf Spotify, Audible und Storytel');
       return false;
     }
     document.getElementById('cd-d')!.textContent = String(Math.floor(ms / 864e5));

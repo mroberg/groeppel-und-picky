@@ -13,7 +13,7 @@ const { note = '· eingesprochen von Matthias Roberg', style } = Astro.props;
   document.querySelectorAll<HTMLElement>('[data-player]').forEach(p => {
     // Nach dem Hörbuchstart: Hinweis „ab 15.11.“ ersetzen
     const t = p.querySelector('small[data-time]');
-    if (t && /ab 15\.11/.test(t.textContent || '') && Date.now() >= new Date(p.dataset.start!).getTime()) t.textContent = '· das ganze Hörbuch gibt es auf Spotify und Audible';
+    if (t && /ab 15\.11/.test(t.textContent || '') && Date.now() >= new Date(p.dataset.start!).getTime()) t.textContent = '· das ganze Hörbuch gibt es auf Spotify, Audible und Storytel';
     const a = p.querySelector('audio')!, btn = p.querySelector('.play')!, bar = p.querySelector<HTMLElement>('.bar')!, fill = bar.querySelector<HTMLElement>('i')!;
     btn.addEventListener('click', () => {
       document.querySelectorAll('audio').forEach(o => o !== a && o.pause());

@@ -26,6 +26,7 @@ export const band1 = {
   hoerbuch: [
     { name: 'Spotify', url: 'https://open.spotify.com/show/12fxUnJWacBdZYzc6Da2KF' },
     { name: 'Audible', url: 'https://www.audible.de/pd/B0HPM1XHSM' },
+    { name: 'Storytel', url: 'https://www.storytel.com/de/books/gr%C3%B6ppel-und-picky-bei-den-indianern-ein-zeitreiseabenteuer-15539339' },
   ],
 };
 

@@ -2,4 +2,4 @@
 interface Props { links: { name: string; url: string }[] }
 const { links } = Astro.props;
 ---
-{links.map((l, i) => <>{i > 0 && ' und '}<a href={l.url} target="_blank" rel="noopener">{l.name}</a></>)}
+{links.map((l, i) => <>{i > 0 && (i === links.length - 1 ? ' und ' : ', ')}<a href={l.url} target="_blank" rel="noopener">{l.name}</a></>)}
