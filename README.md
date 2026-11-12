@@ -18,6 +18,14 @@ npm run build    # fertige Seite in dist/
 - Ausmalbilder (PDF): `public/ausmalbilder/`
 - Alte WordPress-Adressen werden in `public/.htaccess` weitergeleitet.
 
+## Bewertungen
+
+- Übernommene Bewertungen (alte Website, Amazon, Thalia): `src/data/bewertungen.ts`
+- Neue Bewertungen kommen über das Formular auf `/bewertungen/` in die Datenbank (`server/bewertung.php`).
+  Matthias bekommt eine Mail und gibt sie in der Konsole (`/api/konsole.php`) frei. Erst dann erscheinen sie auf der Seite.
+- Kurz-Adresse zum Teilen: `groeppel-und-picky.de/bewertung` (oder `/bewerten`)
+- Die Tabelle legt sich beim ersten Aufruf selbst an. Optional in `config.php` unter `benachrichtigung` die Adresse für die Mail eintragen.
+
 ## Erinnerung an Band 2 (PHP)
 
 Liegt in `server/` und wird beim Deploy nach `/api/` kopiert.

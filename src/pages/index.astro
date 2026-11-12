@@ -6,6 +6,7 @@ import FigurCards from '../components/FigurCards.astro';
 import Razetu from '../components/Razetu.astro';
 import Team from '../components/Team.astro';
 import RemindForm from '../components/RemindForm.astro';
+import Bewertungen from '../components/Bewertungen.astro';
 import { band1, band2, hoerbuchStart, ldWebsite, ldSerie } from '../data/site';
 ---
 <Base description="Gröppel und Picky: lustige Zeitreiseabenteuer für Kinder ab 6 Jahren. Kinderbuch, Hörbuch, kostenlose Ausmalbilder und Geheimnisse zum Entdecken." jsonld={[ldWebsite, ldSerie]}>
@@ -92,7 +93,14 @@ import { band1, band2, hoerbuchStart, ldWebsite, ldSerie } from '../data/site';
     </div>
   </section>
 
-  <section class="band">
+  <section class="band" id="bewertungen">
+    <div class="wrap stack" style="gap:24px">
+      <div class="stack" style="gap:8px"><span class="eyebrow">Bewertungen</span><h2>Das sagen Familien</h2></div>
+      <Bewertungen limit={3} mehrLink />
+    </div>
+  </section>
+
+  <section class="band" style="padding-top:0">
     <div class="wrap stack" style="gap:28px">
       <div class="stack" style="gap:8px"><span class="eyebrow">Wer steckt dahinter?</span><h2>Zwei Freunde aus Schleswig-Holstein</h2></div>
       <Team />

@@ -1,0 +1,79 @@
+---
+// Formular für neue Bewertungen. Backend: /api/bewertung.php
+// Nichts wird sofort veröffentlicht: Matthias bekommt eine Mail und gibt in der Konsole frei.
+interface Props { buch?: string }
+const { buch = 'band1' } = Astro.props;
+---
+<form class="review-form sketch" id="review-form" novalidate>
+  <input type="hidden" name="buch" value={buch}>
+  <input type="hidden" name="dauer" value="0">
+  <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+
+  <fieldset class="rate">
+    <legend>Wie viele Sterne gibst du?</legend>
+    <div class="rate-stars">
+      {[5, 4, 3, 2, 1].map(n => <>
+        <input type="radio" name="sterne" id={`sterne-${n}`} value={n} required>
+        <label for={`sterne-${n}`} title={`${n} von 5 Sternen`}><span class="sr">{n} von 5 Sternen</span>★</label>
+      </>)}
+    </div>
+  </fieldset>
+
+  <div class="row2">
+    <div class="field">
+      <label for="rv-name">Vorname oder Spitzname</label>
+      <input type="text" id="rv-name" name="name" required maxlength="40" autocomplete="given-name">
+    </div>
+    <div class="field">
+      <label for="rv-format">Gelesen oder gehört?</label>
+      <select id="rv-format" name="format">
+        <option value="buch">Buch</option>
+        <option value="ebook">E-Book</option>
+        <option value="hoerbuch">Hörbuch</option>
+      </select>
+    </div>
+  </div>
+  <div class="field">
+    <label for="rv-titel">Überschrift <small>(freiwillig)</small></label>
+    <input type="text" id="rv-titel" name="titel" maxlength="80" placeholder="z. B. Unser Lieblingsbuch">
+  </div>
+  <div class="field">
+    <label for="rv-text">Deine Bewertung</label>
+    <textarea id="rv-text" name="text" required minlength="20" maxlength="1500" rows="5" placeholder="Was hat euch gefallen? Wie alt sind die Kinder, die zugehört oder gelesen haben?"></textarea>
+  </div>
+  <div class="field">
+    <label for="rv-mail">E-Mail <small>(freiwillig, wird nicht veröffentlicht)</small></label>
+    <input type="email" id="rv-mail" name="email" maxlength="254" autocomplete="email" placeholder="Falls wir dir antworten dürfen">
+  </div>
+  <label class="ok"><input type="checkbox" name="ok" required> Ich bin einverstanden, dass meine Bewertung mit Vornamen und Datum auf dieser Seite erscheint. Bist du unter 16, frag bitte vorher deine Eltern.</label>
+  <button class="btn" type="submit">Bewertung abschicken</button>
+  <small>Wir lesen jede Bewertung, bevor sie erscheint. Das kann ein paar Tage dauern. Mehr dazu im <a href="/datenschutz/">Datenschutz</a>.</small>
+  <p class="todo" id="review-err" role="alert" hidden></p>
+</form>
+<div class="done sketch" id="review-done" role="status" tabindex="-1" hidden><img src="/img/groeppel.webp" alt=""><div><b>Vielen Dank!</b>Gröppel und Picky freuen sich riesig. Wir lesen deine Bewertung und schalten sie dann frei.</div></div>
+
+<script>
+  const f = document.getElementById('review-form') as HTMLFormElement;
+  const err = document.getElementById('review-err')!;
+  const start = Date.now();
+  f.addEventListener('submit', async e => {
+    e.preventDefault(); err.hidden = true;
+    const fehlt = !f.querySelector('input[name=sterne]:checked') ? 'Bitte wähle aus, wie viele Sterne du gibst.'
+      : !(f.elements.namedItem('name') as HTMLInputElement).value.trim() ? 'Bitte gib deinen Vornamen an.'
+      : (f.elements.namedItem('text') as HTMLTextAreaElement).value.trim().length < 20 ? 'Schreib bitte ein paar Worte mehr (mindestens 20 Zeichen).'
+      : !(f.elements.namedItem('ok') as HTMLInputElement).checked ? 'Bitte setz den Haken, damit wir die Bewertung zeigen dürfen.'
+      : '';
+    if (fehlt) { err.textContent = fehlt; err.hidden = false; return; }
+    (f.elements.namedItem('dauer') as HTMLInputElement).value = String(Date.now() - start);
+    const btn = f.querySelector('button')!; btn.disabled = true;
+    try {
+      const res = await fetch('/api/bewertung.php', { method: 'POST', body: new FormData(f) });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) throw new Error(data.error || 'Das hat nicht geklappt.');
+      f.hidden = true;
+      const d = document.getElementById('review-done')!; d.hidden = false; d.focus();
+    } catch (x) {
+      err.textContent = (x as Error).message + ' Versuch es bitte gleich noch einmal.'; err.hidden = false;
+    } finally { btn.disabled = false; }
+  });
+</script>

@@ -2,7 +2,9 @@
 import Base from '../../layouts/Base.astro';
 import Player from '../../components/Player.astro';
 import LinkButtons from '../../components/LinkButtons.astro';
+import Bewertungen from '../../components/Bewertungen.astro';
 import { band1, ldAutor, ldIllustrator, ldSerie } from '../../data/site';
+import { ldBewertungen } from '../../data/bewertungen';
 const angebot = (l: { name: string; url: string }) => ({ '@type': 'Offer', url: l.url, seller: { '@type': 'Organization', name: l.name }, availability: 'https://schema.org/InStock' });
 const ldBuch = {
   '@type': 'Book', '@id': 'https://groeppel-und-picky.de/abenteuer/bei-den-indianern/#buch',
@@ -15,6 +17,7 @@ const ldBuch = {
     { '@type': 'Book', bookFormat: 'https://schema.org/EBook', isbn: '9783752638059', offers: band1.ebook.map(angebot) },
     { '@type': 'Audiobook', bookFormat: 'https://schema.org/AudiobookFormat', datePublished: '2026-11-15', offers: band1.hoerbuch.map(angebot) },
   ],
+  ...ldBewertungen(),
 };
 
 const szenen = [
@@ -38,12 +41,6 @@ const leseprobe = [
   '„Äh. Ja, also …“, begann Gröppel. „Der muss vom Tisch gefallen sein, bestimmt bin ich da in der Nacht aus Versehen gegen gestoßen.“',
   '„Gestern Nacht hat ihn der Wind runtergeweht. Vorgestern Nacht wurde der Wecker von einem Erdbeben - wohlgemerkt nur in Deiner Hütte - heruntergeworfen. Und eine Nacht davor hat es in Deine Hütte reingeregnet, so dass der Tisch durch das viele Wasser verrutscht und der Wecker umgekippt ist“, zählte Picky auf.',
   '„Du solltest Dich wirklich schämen, mir immer solche Märchen aufzutischen. Beeile Dich lieber, sonst kommen wir wieder zu spät zur Schule.“',
-];
-// TODO: Bewertungen im Originalwortlaut von der alten Seite übernehmen
-const bewertungen = [
-  { name: 'Paula', text: 'Schon x-mal gelesen. Meine Tochter malt die Figuren nach und wartet auf Teil 2.' },
-  { name: 'Marc', text: 'Mit meinem Sohn (5) gelesen. Toll zum Vorlesen und für Erstleser.' },
-  { name: 'Miriam', text: 'Mein Sohn (7) liebt das Buch, und die Bilder sind wunderbar.' },
 ];
 ---
 <Base title={`${band1.titel} · Kinderbuch und Hörbuch ab 6`} description="Band 1: Gröppel und Picky reisen mit der Zeitmaschine ins Amerika des Jahres 1853. Als Buch, E-Book und ab 15.11.2026 als Hörbuch bei Spotify, Audible und Storytel." image="/img/og/band1.jpg" ogType="book" jsonld={ldBuch}>
@@ -102,12 +99,10 @@ const bewertungen = [
     </div>
   </section>
 
-  <section class="band">
+  <section class="band" id="bewertungen" style="scroll-margin-top:80px">
     <div class="wrap stack" style="gap:24px">
-      <div class="stack" style="gap:8px"><span class="eyebrow">5 von 5 Sternen</span><h2>Das sagen Familien</h2></div>
-      <div class="quotes">
-        {bewertungen.map(b => <div class="quote sketch"><span class="stars" aria-label="5 von 5 Sternen">★★★★★</span><p>{b.text}</p><b>{b.name}</b></div>)}
-      </div>
+      <div class="stack" style="gap:8px"><span class="eyebrow">Bewertungen</span><h2>Das sagen Familien</h2></div>
+      <Bewertungen limit={6} mehrLink />
     </div>
   </section>
 

@@ -208,3 +208,32 @@ footer nav { display: flex; gap: 18px; flex-wrap: wrap }
 @keyframes wackel { 0%, 82%, 100% { transform: rotate(-2deg) } 86% { transform: rotate(3deg) scale(1.04) } 90% { transform: rotate(-4deg) scale(1.04) } 94% { transform: rotate(2deg) } }
 @keyframes suchen { from { transform: translate(-2px, 1px) rotate(-8deg) } to { transform: translate(2px, -1px) rotate(8deg) } }
 @media (prefers-reduced-motion: reduce) { .rz-teaser svg, .rz-teaser .l1, .rz-teaser .l2, .rz-teaser .l3, .secret-btn, .secret-btn:hover .lupe { animation: none } }
+
+/* Bewertungen */
+.reviews { display: grid; gap: 20px }
+.review-sum { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; font-size: 1.1rem }
+.review-sum .stars { font-size: 1.5rem }
+.quote h3 { font-size: 1.25rem }
+.quote p { white-space: pre-line }
+.quote .meta { font-size: .95rem; color: var(--ink-soft) }
+.quote .meta b { color: var(--ink) }
+.review-note { font-size: .9rem; color: var(--ink-soft); max-width: 75ch }
+.review-form { display: grid; gap: 14px; background: var(--paper); padding: clamp(18px, 4vw, 28px); max-width: 640px }
+.review-form .field { display: grid; gap: 6px; min-width: 0 }
+.review-form label, .review-form legend { font-weight: 700 }
+.review-form label small { font-weight: 400; color: var(--ink-soft) }
+.review-form .row2 { display: grid; grid-template-columns: 1fr minmax(0, 200px); gap: 14px }
+.review-form input[type=text], .review-form input[type=email], .review-form select, .review-form textarea { font: inherit; width: 100%; padding: 10px 14px; border: 3px solid var(--line); border-radius: 12px; background: #fff; color: #1d2420 }
+.review-form textarea { resize: vertical; min-height: 130px }
+.review-form .ok { display: flex; gap: 8px; align-items: flex-start; font-size: .95rem; font-weight: 400 }
+.review-form small { color: var(--ink-soft) }
+.review-form button { justify-self: start }
+.rate { border: 0; padding: 0; margin: 0 }
+.rate-stars { display: inline-flex; flex-direction: row-reverse; gap: 2px }
+.rate-stars input { position: absolute; opacity: 0; width: 1px; height: 1px }
+.rate-stars label { font-size: 2.6rem; line-height: 1; color: #d9d0b4; cursor: pointer; padding: 2px; transition: transform .15s, color .15s; -webkit-text-stroke: 1.5px var(--line) }
+.rate-stars label:hover, .rate-stars label:hover ~ label, .rate-stars input:checked ~ label { color: var(--orange) }
+.rate-stars label:hover { transform: scale(1.15) rotate(-8deg) }
+.rate-stars input:focus-visible + label { outline: 3px dashed var(--orange); outline-offset: 2px; border-radius: 8px }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap }
+@media (max-width: 560px) { .review-form .row2 { grid-template-columns: 1fr } }
