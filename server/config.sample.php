@@ -22,5 +22,7 @@ return [
         'user' => 'matthias',
         'pass' => '***',
     ],
+    // Hierhin geht die Mail, wenn jemand eine Bewertung abschickt (sonst an smtp.from).
+    'benachrichtigung' => 'post@groeppel-und-picky.de',
     'baseUrl' => 'https://groeppel-und-picky.de',
 ];

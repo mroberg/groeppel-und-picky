@@ -1,5 +1,5 @@
 <?php
-// Kleine Verwaltungskonsole für die Erinnerung an Band 2.
+// Kleine Verwaltungskonsole: Bewertungen freigeben und Erinnerung an Band 2.
 // Zugang: Benutzer und Passwort-Hash in config.php unter 'admin' (siehe config.sample.php).
 declare(strict_types=1);
 require __DIR__ . '/lib.php';
@@ -83,6 +83,18 @@ if ($angemeldet && $_SERVER['REQUEST_METHOD'] === 'POST' && $aktion !== '') {
     pruefeCsrf($csrf);
     try {
         switch ($aktion) {
+            case 'bw_freigeben':
+                db()->prepare('UPDATE bewertung SET freigegeben = NOW() WHERE id = ? AND freigegeben IS NULL')->execute([(int)$_POST['id']]);
+                $meldung = 'Bewertung freigegeben. Sie ist jetzt auf der Seite zu sehen (spätestens nach 5 Minuten).';
+                break;
+            case 'bw_verbergen':
+                db()->prepare('UPDATE bewertung SET freigegeben = NULL WHERE id = ?')->execute([(int)$_POST['id']]);
+                $meldung = 'Bewertung ist wieder verborgen.';
+                break;
+            case 'bw_loeschen':
+                db()->prepare('DELETE FROM bewertung WHERE id = ?')->execute([(int)$_POST['id']]);
+                $meldung = 'Bewertung gelöscht.';
+                break;
             case 'loeschen':
                 db()->prepare('DELETE FROM erinnerung WHERE id = ?')->execute([(int)$_POST['id']]);
                 $meldung = 'Eintrag gelöscht.';
@@ -122,7 +134,12 @@ if ($angemeldet && $_SERVER['REQUEST_METHOD'] === 'POST' && $aktion !== '') {
 // ---------- Daten für die Ansicht ----------
 $eintraege = [];
 $stat = ['bestaetigt' => 0, 'offen' => 0];
+$bewertungen = [];
+$bwNeu = 0;
 if ($angemeldet) {
+    bewertungTabelle();
+    $bewertungen = db()->query('SELECT id, buch, format, name, sterne, titel, text, email, erstellt, freigegeben FROM bewertung ORDER BY freigegeben IS NOT NULL, erstellt DESC')->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($bewertungen as $b) if (!$b['freigegeben']) $bwNeu++;
     $eintraege = db()->query('SELECT id, email, erstellt, bestaetigt FROM erinnerung ORDER BY bestaetigt IS NULL, erstellt DESC')->fetchAll(PDO::FETCH_ASSOC);
     foreach ($eintraege as $e) $stat[$e['bestaetigt'] ? 'bestaetigt' : 'offen']++;
 }
@@ -160,6 +177,10 @@ $datum = fn($s) => $s ? date('d.m.Y H:i', strtotime($s)) : '–';
   .login { max-width: 360px; margin: 10vh auto 0 } .login form { display: grid; gap: 10px }
   .danger { border-color: var(--red) } small { color: var(--soft) }
   progress { width: 100%; height: 14px }
+  .bw { display: grid; gap: 12px } .bw-item { border: 2px solid #d9d0b4; border-radius: 12px; padding: 12px 14px; background: #fff; display: grid; gap: 6px }
+  .bw-item.neu { border: 3px solid var(--sun); background: #fffbea }
+  .bw-item .st { color: #ee8a23; font-size: 1.2rem; letter-spacing: 2px } .bw-item p { margin: 0; white-space: pre-line }
+  .bw-item .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center } .bw-item form { margin: 0 }
 </style>
 </head>
 <body>
@@ -177,12 +198,39 @@ $datum = fn($s) => $s ? date('d.m.Y H:i', strtotime($s)) : '–';
   </div>
 <?php else: ?>
   <header>
-    <h1>Erinnerung an Band 2</h1>
+    <h1>Konsole</h1>
     <form method="post" action="konsole.php"><input type="hidden" name="aktion" value="logout"><input type="hidden" name="csrf" value="<?= $h($csrf) ?>"><button class="alt" type="submit">Abmelden</button></form>
   </header>
   <?php if ($meldung): ?><p class="msg ok"><?= $h($meldung) ?></p><?php endif ?>
   <?php if ($fehler): ?><p class="msg err"><?= $h($fehler) ?></p><?php endif ?>
 
+  <section class="box" id="bewertungen">
+    <h2>Bewertungen<?= $bwNeu ? " · $bwNeu neu" : '' ?></h2>
+    <p><small>Neue Bewertungen sind erst nach „Freigeben“ auf der Seite zu sehen. Auf der Seite steht, dass wir alle Bewertungen zeigen, die uns erreichen. Darum bitte nur Spam, Beleidigungen oder persönliche Daten löschen, keine kritischen Bewertungen.</small></p>
+    <div class="bw">
+    <?php foreach ($bewertungen as $b): ?>
+      <div class="bw-item<?= $b['freigegeben'] ? '' : ' neu' ?>">
+        <div class="row"><span class="st"><?= str_repeat('★', (int)$b['sterne']) . str_repeat('☆', 5 - (int)$b['sterne']) ?></span>
+          <b><?= $h($b['name']) ?></b><small><?= $datum($b['erstellt']) ?><?= $b['format'] ? ' · ' . $h(['buch' => 'Buch', 'ebook' => 'E-Book', 'hoerbuch' => 'Hörbuch'][$b['format']] ?? $b['format']) : '' ?></small>
+          <?= $b['freigegeben'] ? '<span class="pill y">sichtbar seit ' . $datum($b['freigegeben']) . '</span>' : '<span class="pill n">wartet auf Freigabe</span>' ?></div>
+        <?php if ($b['titel']): ?><b><?= $h($b['titel']) ?></b><?php endif ?>
+        <p><?= $h($b['text']) ?></p>
+        <?php if ($b['email']): ?><small>E-Mail (nicht öffentlich): <a href="mailto:<?= $h($b['email']) ?>"><?= $h($b['email']) ?></a></small><?php endif ?>
+        <div class="row">
+          <?php if (!$b['freigegeben']): ?>
+            <form method="post" action="konsole.php#bewertungen"><input type="hidden" name="aktion" value="bw_freigeben"><input type="hidden" name="csrf" value="<?= $h($csrf) ?>"><input type="hidden" name="id" value="<?= (int)$b['id'] ?>"><button class="small" type="submit">Freigeben</button></form>
+          <?php else: ?>
+            <form method="post" action="konsole.php#bewertungen"><input type="hidden" name="aktion" value="bw_verbergen"><input type="hidden" name="csrf" value="<?= $h($csrf) ?>"><input type="hidden" name="id" value="<?= (int)$b['id'] ?>"><button class="alt small" type="submit">Verbergen</button></form>
+          <?php endif ?>
+          <form method="post" action="konsole.php#bewertungen" data-confirm="Bewertung von <?= $h($b['name']) ?>"><input type="hidden" name="aktion" value="bw_loeschen"><input type="hidden" name="csrf" value="<?= $h($csrf) ?>"><input type="hidden" name="id" value="<?= (int)$b['id'] ?>"><button class="alt small" type="submit">Löschen</button></form>
+        </div>
+      </div>
+    <?php endforeach ?>
+    <?php if (!$bewertungen): ?><small>Noch keine Bewertungen über das Formular.</small><?php endif ?>
+    </div>
+  </section>
+
+  <h2 style="margin:12px 0 0">Erinnerung an Band 2</h2>
   <div class="stats">
     <div class="stat"><b><?= $stat['bestaetigt'] ?></b>bestätigt</div>
     <div class="stat"><b><?= $stat['offen'] ?></b>noch nicht bestätigt</div>

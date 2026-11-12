@@ -1,0 +1,79 @@
+---
+// Zeigt die Bewertungen: übernommene aus src/data/bewertungen.ts (im HTML)
+// plus die in der Konsole freigegebenen aus der Datenbank (per /api/bewertung.php nachgeladen).
+import { bewertungen, quellen, type Bewertung } from '../data/bewertungen';
+
+interface Props { limit?: number; mehrLink?: boolean }
+const { limit, mehrLink = false } = Astro.props;
+
+const sterne = (n: number) => '★'.repeat(n) + '☆'.repeat(5 - n);
+const datum = (d: string) => d.split('-').reverse().join('.');
+const quelleText = (b: Bewertung) =>
+  b.quelle === 'website' ? 'auf groeppel-und-picky.de' : `bei ${quellen[b.quelle].name}${b.verifiziert ? ' · Verifizierter Kauf' : ''}`;
+const liste = [...bewertungen].sort((a, b) => b.datum.localeCompare(a.datum));
+const schnitt = liste.reduce((s, b) => s + b.sterne, 0) / liste.length;
+---
+<div class="reviews" data-limit={limit ?? 0}>
+  <p class="review-sum">
+    <span class="stars" aria-hidden="true">★★★★★</span>
+    <span><b data-schnitt>{schnitt.toFixed(1).replace('.', ',')}</b> von 5 Sternen · <span data-anzahl>{liste.length}</span> Bewertungen</span>
+  </p>
+  <div class="quotes" data-liste>
+    {liste.map((b, i) => (
+      <article class="quote sketch" data-datum={b.datum} hidden={limit ? i >= limit : false}>
+        <span class="stars" role="img" aria-label={`${b.sterne} von 5 Sternen`} data-sterne={b.sterne}>{sterne(b.sterne)}</span>
+        <h3>{b.titel}</h3>
+        <p>{b.text}</p>
+        <p class="meta">
+          <b>{b.name}</b> · {datum(b.datum)}<br>
+          {quellen[b.quelle].url
+            ? <a href={quellen[b.quelle].url} target="_blank" rel="noopener">{quelleText(b)}</a>
+            : quelleText(b)}
+        </p>
+      </article>
+    ))}
+  </div>
+  <p class="review-note">
+    Wir zeigen alle Bewertungen, die uns erreicht haben. Bewertungen, die hier auf der Seite abgegeben werden, lesen wir vor der Veröffentlichung,
+    prüfen aber nicht, ob das Buch gekauft wurde. Bewertungen von Amazon und Thalia übernehmen wir im Wortlaut, „Verifizierter Kauf“ hat Amazon geprüft.
+  </p>
+  {mehrLink && <div class="btns"><a class="btn" href="/bewertungen/#schreiben">Eigene Bewertung schreiben</a><a class="btn alt" href="/bewertungen/">Alle Bewertungen</a></div>}
+</div>
+
+<script>
+  const formate: Record<string, string> = { buch: 'hat das Buch gelesen', ebook: 'hat das E-Book gelesen', hoerbuch: 'hat das Hörbuch gehört' };
+  type Neu = { name: string; titel: string; text: string; sterne: number; datum: string; format?: string };
+
+  document.querySelectorAll<HTMLElement>('.reviews').forEach(async box => {
+    let neue: Neu[] = [];
+    try {
+      const r = await fetch('/api/bewertung.php', { headers: { Accept: 'application/json' } });
+      if (r.ok) neue = (await r.json()).bewertungen ?? [];
+    } catch { /* ohne Server einfach nur die festen Bewertungen zeigen */ }
+    if (!neue.length) return;
+
+    const liste = box.querySelector<HTMLElement>('[data-liste]')!;
+    const el = (tag: string, cls?: string, text?: string) => {
+      const e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e;
+    };
+    for (const b of neue) {
+      const a = el('article', 'quote sketch'); a.dataset.datum = b.datum;
+      const s = el('span', 'stars', '★'.repeat(b.sterne) + '☆'.repeat(5 - b.sterne));
+      s.setAttribute('role', 'img'); s.setAttribute('aria-label', `${b.sterne} von 5 Sternen`); s.dataset.sterne = String(b.sterne);
+      a.append(s);
+      if (b.titel) a.append(el('h3', '', b.titel));
+      a.append(el('p', '', b.text));
+      const m = el('p', 'meta'); m.append(el('b', '', b.name), ` · ${b.datum.split('-').reverse().join('.')}`, document.createElement('br'),
+        `auf groeppel-und-picky.de${b.format && formate[b.format] ? ' · ' + formate[b.format] : ''}`);
+      a.append(m);
+      liste.append(a);
+    }
+    const karten = [...liste.querySelectorAll<HTMLElement>('article')].sort((x, y) => y.dataset.datum!.localeCompare(x.dataset.datum!));
+    const limit = Number(box.dataset.limit) || 0;
+    karten.forEach((k, i) => { k.hidden = limit > 0 && i >= limit; liste.append(k); });
+
+    const werte = karten.map(k => Number(k.querySelector<HTMLElement>('[data-sterne]')!.dataset.sterne));
+    box.querySelector('[data-anzahl]')!.textContent = String(werte.length);
+    box.querySelector('[data-schnitt]')!.textContent = (werte.reduce((s, n) => s + n, 0) / werte.length).toFixed(1).replace('.', ',');
+  });
+</script>

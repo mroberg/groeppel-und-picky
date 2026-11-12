@@ -1,5 +1,5 @@
-# Nur Anmelde-Endpunkt und Konsole sind erreichbar
+# Nur Anmelde- und Bewertungs-Endpunkt und Konsole sind erreichbar
 Require all denied
-<FilesMatch "^(erinnerung|konsole)\.php$">
+<FilesMatch "^(erinnerung|bewertung|konsole)\.php$">
   Require all granted
 </FilesMatch>

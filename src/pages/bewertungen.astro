@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import Bewertungen from '../components/Bewertungen.astro';
+import BewertungForm from '../components/BewertungForm.astro';
+import { band1 } from '../data/site';
+---
+<Base title="Bewertungen" description={`Wie hat euch „${band1.titel}“ gefallen? Lies, was andere Familien sagen, und schreib deine eigene Bewertung.`}>
+  <div class="page-head"><div class="wrap stack" style="gap:12px">
+    <span class="eyebrow">Band 1 · Buch und Hörbuch</span>
+    <h1>Wie hat euch das Abenteuer gefallen?</h1>
+    <p style="max-width:60ch;font-size:1.15rem">Ob vorgelesen, selbst gelesen oder gehört: Wir freuen uns über jede Bewertung zu „{band1.titel}“. Sie hilft anderen Familien, Gröppel und Picky zu entdecken.</p>
+  </div></div>
+
+  <section class="band" style="padding-top:24px;scroll-margin-top:80px" id="schreiben">
+    <div class="wrap stack" style="gap:20px">
+      <h2>Bewertung schreiben</h2>
+      <BewertungForm />
+    </div>
+  </section>
+
+  <section class="band" style="background:var(--paper-2)">
+    <div class="wrap stack" style="gap:24px">
+      <div class="stack" style="gap:8px"><span class="eyebrow">Stimmen</span><h2>Das sagen Familien</h2></div>
+      <Bewertungen />
+    </div>
+  </section>
+</Base>

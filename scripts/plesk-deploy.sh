@@ -25,7 +25,7 @@ npm run build
 
 (cd server && "$COMPOSER" install --no-dev --optimize-autoloader --no-interaction)
 mkdir -p dist/api
-cp -r server/vendor server/lib.php server/erinnerung.php server/versand.php server/konsole.php server/.htaccess dist/api/
+cp -r server/vendor server/lib.php server/erinnerung.php server/bewertung.php server/versand.php server/konsole.php server/.htaccess dist/api/
 
 mkdir -p "$TARGET"
 if command -v rsync >/dev/null; then
